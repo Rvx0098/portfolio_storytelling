@@ -1,48 +1,76 @@
-<div class="hero">
-    <div class="hero-text">
-        <h1>Welcome to My Portfolio</h1>
-        <p>Your journey of storytelling begins here.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Storytelling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .project-widget {
+            border: 5px solid gold;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            animation: staggeredEntrance 0.5s ease-in-out;
+        }
+        .project-widget:hover {
+            border: 5px solid transparent;
+            background: linear-gradient(to right, gold, transparent);
+            animation: shimmer 1s infinite;
+        }
+        .gold-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 5px solid gold;
+            z-index: -1;
+            animation: rotateBorder 5s linear infinite;
+        }
+        .floating-icon {
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes staggeredEntrance {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1>My Projects</h1>
+    <div class="project-widget">
+        <div class="gold-border"></div>
+        <h2>Epic Project 1</h2>
+        <p>Details about the epic project.</p>
+        <div class="floating-icon" style="top: 10px; left: 10px;">🌟</div>
     </div>
-    <div class="profile-image">
-        <img src="path_to_your_image.jpg" alt="Profile Image" class="rotating-image">
+    <div class="project-widget">
+        <div class="gold-border"></div>
+        <h2>Epic Project 2</h2>
+        <p>Details about another epic project.</p>
+        <div class="floating-icon" style="top: 10px; left: 10px;">✨</div>
     </div>
-</div>
-
-<style>
-.hero {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.hero-text {
-    flex: 1;
-    padding: 20px;
-}
-
-.profile-image {
-    flex: 1;
-}
-
-.rotating-image {
-    width: 300px;
-    height: auto;
-    animation: rotate 20s infinite linear;
-    filter: drop-shadow(0 0 10px gold);
-}
-
-@keyframes rotate {
-    0% { transform: rotateY(0deg); }
-    100% { transform: rotateY(360deg); }
-}
-
-/* Parallax Effect */
-body {
-    perspective: 1000px;
-}
-
-.hero {
-    transform: translateZ(-50px);
-}
-</style>
+</body>
+</html>
