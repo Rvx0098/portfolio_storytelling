@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rishit Verma | Portfolio</title>
 
-  <!-- BLUORNG STYLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -774,6 +773,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      z-index: 10;
     }
 
     .chat-header{
@@ -937,7 +937,6 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-inner reveal">
       <div class="hero-content">
@@ -974,7 +973,6 @@ With a foundation in financial literacy, project management, and leadership, I f
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
   <section class="product-section" id="experience">
     <div class="product-sticky">
       <canvas id="three-bg"></canvas>
@@ -1005,7 +1003,6 @@ With a foundation in financial literacy, project management, and leadership, I f
     </div>
   </section>
 
-  <!-- WORK -->
   <section id="work" class="reveal">
     <h2 class="section-title">Work</h2>
     <p class="section-sub">
@@ -1044,7 +1041,7 @@ With a foundation in financial literacy, project management, and leadership, I f
       </div>
 
       <div class="project glass">
-        <div class="project-badge">WIP</div>
+        <div class="project-badge">Concept Deck</div>
         <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(44,44,44,0.50), rgba(176,139,87,0.28));"></div>
         <div class="project-content">
           <div class="project-tags">
@@ -1054,13 +1051,17 @@ With a foundation in financial literacy, project management, and leadership, I f
           </div>
           <h3>GRX Streetwear Branding</h3>
           <p>Minimal Gen-Z streetwear branding and graphic concepts.</p>
-          <a href="#">Coming Soon →</a>
+          
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https://www.canva.com/design/DAHEafDCTEg/h1ClIt9u7ogiUWSWA5s4ng/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAHEafDCTEg&#x2F;h1ClIt9u7ogiUWSWA5s4ng&#x2F;view?utm_content=DAHEafDCTEg&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Photographer</a> by rishit verma">View Brand Deck →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills" class="reveal">
     <h2 class="section-title">Skills</h2>
     <p class="section-sub">
@@ -1098,7 +1099,6 @@ With a foundation in financial literacy, project management, and leadership, I f
     </div>
   </section>
 
-  <!-- CERTIFICATIONS -->
   <section id="certifications" class="reveal">
     <h2 class="section-title">Certifications</h2>
     <p class="section-sub">
@@ -1141,7 +1141,6 @@ With a foundation in financial literacy, project management, and leadership, I f
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact" class="reveal">
     <div class="glass" style="padding:80px 45px; border-radius:40px; text-align:center;">
       <h2 class="section-title">Contact</h2>
@@ -1178,7 +1177,6 @@ With a foundation in financial literacy, project management, and leadership, I f
     © 2026 RISHIT VERMA • PREMIUM PORTFOLIO EXPERIENCE
   </footer>
 
-  <!-- AI CHATBOT UI -->
   <button class="chat-btn" id="chatBtn">AI Chat</button>
 
   <div class="chat-popup glass" id="chatPopup">
@@ -1200,6 +1198,13 @@ With a foundation in financial literacy, project management, and leadership, I f
     <div class="cert-modal-content" role="dialog" aria-modal="true" aria-label="Certificate preview">
       <button class="cert-close" id="certClose" aria-label="Close certificate preview">&times;</button>
       <img id="certModalImg" src="" alt="Certificate preview">
+    </div>
+  </div>
+
+  <div class="cert-modal" id="pptModal" aria-hidden="true">
+    <div class="cert-modal-content" style="width: min(1000px, 96vw); height: 80vh;" role="dialog" aria-modal="true" aria-label="Presentation preview">
+      <button class="cert-close" id="pptClose" aria-label="Close presentation preview">&times;</button>
+      <iframe id="pptIframe" src="" width="100%" height="100%" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="border-radius: 14px; background: #111;"></iframe>
     </div>
   </div>
 
@@ -1257,6 +1262,36 @@ With a foundation in financial literacy, project management, and leadership, I f
     document.addEventListener("keydown", (event) => {
       if(event.key === "Escape" && certModal.classList.contains("active")){
         closeCertificate();
+      }
+    });
+
+    // PRESENTATION POPUP (NEW)
+    const pptModal = document.getElementById("pptModal");
+    const pptIframe = document.getElementById("pptIframe");
+    const pptClose = document.getElementById("pptClose");
+
+    function openPPT(src){
+      pptIframe.src = src;
+      pptModal.classList.add("active");
+      pptModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePPT(){
+      pptModal.classList.remove("active");
+      pptModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      pptIframe.src = ""; // Clear iframe so media stops playing
+    }
+
+    pptClose.addEventListener("click", closePPT);
+    pptModal.addEventListener("click", (event) => {
+      if(event.target === pptModal) closePPT();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if(event.key === "Escape" && pptModal.classList.contains("active")){
+        closePPT();
       }
     });
 
