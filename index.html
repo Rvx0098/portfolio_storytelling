@@ -25,6 +25,10 @@
       --depth1: 0 2px 8px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.10), 0 32px 80px rgba(176,139,87,0.10);
       --depth2: 0 4px 16px rgba(0,0,0,0.12), 0 16px 60px rgba(0,0,0,0.14), 0 60px 120px rgba(176,139,87,0.18);
       --depth3: 0 8px 32px rgba(0,0,0,0.18), 0 32px 100px rgba(0,0,0,0.20), 0 80px 200px rgba(176,139,87,0.28);
+      --genz-pink:#ff2a8a;
+      --genz-cyan:#00f5ff;
+      --genz-lime:#c8ff00;
+      --genz-violet:#b14cff;
     }
 
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -150,7 +154,7 @@
     .bg-video{
       position:fixed;
       inset:0;
-      z-index:-8;
+      z-index:-9;
       overflow:hidden;
     }
     .bg-video video{
@@ -159,6 +163,206 @@
       object-fit:cover;
       opacity:0.055;
       filter:grayscale(80%) contrast(130%);
+    }
+
+    /* GEN Z — global WebGL + chrome (fixed layer above video) */
+    #genz-canvas{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:-8;
+      pointer-events:none;
+      opacity:0.38;
+      mix-blend-mode:screen;
+      transition:opacity 0.6s ease;
+    }
+    body.dark-mode #genz-canvas{
+      mix-blend-mode:plus-lighter;
+      opacity:0.32;
+    }
+
+    /* HERO — chaotic 3D chrome */
+    .genz-hero-deco{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .genz-hero-deco .hz{
+      position:absolute;
+      border:2px solid transparent;
+      background:
+        linear-gradient(var(--creme), var(--creme)) padding-box,
+        linear-gradient(135deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet)) border-box;
+      border-radius:20%;
+      opacity:0.55;
+      transform-style:preserve-3d;
+      box-shadow:
+        0 0 24px rgba(255,42,138,0.25),
+        0 0 40px rgba(0,245,255,0.15),
+        inset 0 0 20px rgba(255,255,255,0.12);
+    }
+    body.dark-mode .genz-hero-deco .hz{
+      background:
+        linear-gradient(rgba(12,12,12,0.2), rgba(12,12,12,0.2)) padding-box,
+        linear-gradient(135deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet)) border-box;
+      opacity:0.65;
+    }
+    .genz-hero-deco .hz-1{
+      width:min(180px,28vw);
+      height:min(180px,28vw);
+      top:8%;
+      right:4%;
+      animation:hzSpin1 14s linear infinite;
+    }
+    .genz-hero-deco .hz-2{
+      width:min(120px,22vw);
+      height:min(120px,22vw);
+      bottom:18%;
+      left:2%;
+      border-radius:35% 65% 70% 30% / 30% 40% 60% 70%;
+      animation:hzSpin2 18s linear infinite reverse;
+    }
+    .genz-hero-deco .hz-3{
+      width:min(90px,16vw);
+      height:min(90px,16vw);
+      top:42%;
+      left:8%;
+      animation:hzSpin1 11s linear infinite;
+    }
+    .genz-hero-deco .hz-4{
+      width:min(70px,14vw);
+      height:min(140px,24vw);
+      bottom:32%;
+      right:12%;
+      border-radius:12px;
+      animation:hzSpin2 9s linear infinite;
+    }
+    @keyframes hzSpin1{
+      from{ transform:perspective(400px) rotateX(12deg) rotateY(0deg) rotateZ(0deg); }
+      to{ transform:perspective(400px) rotateX(12deg) rotateY(360deg) rotateZ(18deg); }
+    }
+    @keyframes hzSpin2{
+      from{ transform:perspective(500px) rotateX(-20deg) rotateY(0deg) translateZ(0); }
+      to{ transform:perspective(500px) rotateX(-20deg) rotateY(-360deg) translateZ(12px); }
+    }
+
+    .hero-title--genz{
+      animation:heroTitle3d 7s ease-in-out infinite;
+    }
+    @keyframes heroTitle3d{
+      0%,100%{ transform:translateY(0) rotateX(0deg); }
+      40%{ transform:translateY(-6px) rotateX(2deg); }
+      70%{ transform:translateY(2px) rotateX(-1deg); }
+    }
+    .hero-title--genz > span{
+      animation:genzHue 10s linear infinite;
+    }
+    @keyframes genzHue{
+      0%{ filter:drop-shadow(0 0 20px rgba(176,139,87,0.35)) hue-rotate(0deg); }
+      50%{ filter:drop-shadow(0 0 28px rgba(255,42,138,0.45)) hue-rotate(40deg); }
+      100%{ filter:drop-shadow(0 0 20px rgba(0,245,255,0.35)) hue-rotate(-25deg); }
+    }
+
+    .profile-wrap.genz-profile-ring{
+      animation:profileFloat 5s ease-in-out infinite, genzRingPulse 3.2s ease-in-out infinite;
+    }
+    @keyframes genzRingPulse{
+      0%,100%{ box-shadow:
+        0 2px 6px rgba(255,42,138,0.2),
+        0 8px 30px rgba(0,245,255,0.18),
+        0 30px 80px rgba(177,76,255,0.15),
+        0 60px 160px rgba(0,0,0,0.14); }
+      50%{ box-shadow:
+        0 4px 20px rgba(0,245,255,0.35),
+        0 16px 50px rgba(255,42,138,0.28),
+        0 40px 100px rgba(200,255,0,0.12),
+        0 60px 160px rgba(0,0,0,0.16); }
+    }
+    body.dark-mode .profile-wrap.genz-profile-ring{
+      animation:profileFloat 5s ease-in-out infinite, genzRingPulseDark 3.2s ease-in-out infinite;
+    }
+    @keyframes genzRingPulseDark{
+      0%,100%{ box-shadow:
+        0 4px 18px rgba(255,42,138,0.25),
+        0 20px 60px rgba(0,245,255,0.12),
+        0 50px 140px rgba(0,0,0,0.6); }
+      50%{ box-shadow:
+        0 8px 32px rgba(200,255,0,0.2),
+        0 24px 70px rgba(177,76,255,0.22),
+        0 50px 140px rgba(0,0,0,0.65); }
+    }
+
+    /* CERTIFICATIONS — hyper 3D cards */
+    #certifications .projects-grid{
+      perspective:1400px;
+    }
+    #certifications .project{
+      transform-style:preserve-3d;
+      transition:transform 0.22s cubic-bezier(.2,.8,.2,1), box-shadow 0.5s ease;
+    }
+    #certifications .project:hover{
+      transform:translateY(-16px) scale(1.02);
+    }
+    .project--genz-cert{
+      border:1px solid transparent;
+      background:
+        linear-gradient(rgba(255,255,255,0.62), rgba(255,255,255,0.52)) padding-box,
+        linear-gradient(120deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet), var(--genz-pink)) border-box;
+      background-size:100% 100%, 220% 220%;
+      animation:genzBorderShift 5s linear infinite;
+    }
+    body.dark-mode .project--genz-cert{
+      background:
+        linear-gradient(rgba(14,14,14,0.75), rgba(10,10,10,0.65)) padding-box,
+        linear-gradient(120deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet), var(--genz-pink)) border-box;
+      background-size:100% 100%, 220% 220%;
+    }
+    @keyframes genzBorderShift{
+      from{ background-position:0 0, 0% 50%; }
+      to{ background-position:0 0, 100% 50%; }
+    }
+    .project--genz-cert .project-badge{
+      background:linear-gradient(110deg, var(--genz-pink), var(--genz-violet));
+      border-color:rgba(255,255,255,0.35);
+      animation:genzBadgePulse 2s ease-in-out infinite;
+    }
+    @keyframes genzBadgePulse{
+      0%,100%{ filter:brightness(1); }
+      50%{ filter:brightness(1.25); }
+    }
+    .cert-image--genz{
+      position:relative;
+      overflow:hidden;
+    }
+    .cert-image--genz::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:conic-gradient(from 0deg, transparent, rgba(255,42,138,0.12), transparent, rgba(0,245,255,0.15), transparent);
+      animation:certShine 4s linear infinite;
+      pointer-events:none;
+      mix-blend-mode:overlay;
+    }
+    @keyframes certShine{
+      to{ transform:rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      #genz-canvas{ display:none !important; }
+      .genz-hero-deco .hz,
+      .hero-title--genz,
+      .hero-title--genz > span,
+      .profile-wrap.genz-profile-ring,
+      .project--genz-cert,
+      .project--genz-cert .project-badge,
+      .cert-image--genz::after{
+        animation:none !important;
+      }
+      .project--genz-cert{ background:rgba(255,255,255,0.6); border:1px solid rgba(176,139,87,0.2); }
+      body.dark-mode .project--genz-cert{ background:rgba(12,12,12,0.65); }
     }
 
     /* OVERLAY — layered depth */
@@ -303,12 +507,15 @@
 
     /* HERO */
     .hero{
+      position:relative;
       min-height:100vh;
       display:flex;
       align-items:center;
       padding-top:190px;
     }
     .hero-inner{
+      position:relative;
+      z-index:2;
       max-width:1060px;
       display:grid;
       grid-template-columns:1fr 330px;
@@ -1142,6 +1349,312 @@
       line-height:1;
     }
     body.dark-mode .section-num { color:rgba(176,139,87,0.08); }
+
+    /* ABOUT */
+    .about-panel{
+      max-width:920px;
+      padding:52px 48px;
+      border-radius:36px;
+    }
+    .about-panel .hero-desc{
+      margin-bottom:0;
+      max-width:none;
+    }
+    .about-panel .hero-desc + .hero-desc{ margin-top:1.35em; }
+
+    /* ABOUT + CONTACT — anime / football / hip-hop culture layers */
+    .section-culture-about,
+    .section-culture-contact{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+    }
+    .culture-stack{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .culture-content{
+      position:relative;
+      z-index:3;
+    }
+    .culture-3d-canvas{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+      opacity:0.42;
+      mix-blend-mode:screen;
+    }
+    body.dark-mode .culture-3d-canvas{
+      opacity:0.34;
+      mix-blend-mode:plus-lighter;
+    }
+    .culture-vfx{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    /* ABOUT — turf + hex (football), speed lines + stars (anime), gold blocks (hip-hop) */
+    .culture-vfx--about .cvfx-turf{
+      position:absolute;
+      inset:-20%;
+      background:
+        repeating-linear-gradient(
+          -28deg,
+          transparent 0 14px,
+          rgba(34,139,34,0.07) 14px 16px,
+          transparent 16px 38px,
+          rgba(0,80,0,0.05) 38px 40px
+        );
+      animation:cvfxTurfSlide 18s linear infinite;
+    }
+    @keyframes cvfxTurfSlide{
+      from{ transform:translate(0,0) rotate(0deg); }
+      to{ transform:translate(-28px,22px) rotate(0deg); }
+    }
+    .culture-vfx--about .cvfx-hex{
+      position:absolute;
+      inset:0;
+      opacity:0.11;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 0L56 16v32L28 64 0 48V16z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3Cpath d='M28 36L56 52v32L28 100 0 84V52z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E");
+      animation:cvfxHexDrift 50s linear infinite;
+    }
+    body.dark-mode .culture-vfx--about .cvfx-hex{ opacity:0.14; }
+    @keyframes cvfxHexDrift{
+      from{ background-position:0 0; }
+      to{ background-position:112px 200px; }
+    }
+    .culture-vfx--about .cvfx-speedlines{
+      position:absolute;
+      inset:0;
+      background:
+        repeating-conic-gradient(
+          from -12deg at 0% 45%,
+          transparent 0deg 1.2deg,
+          rgba(255,42,138,0.09) 1.2deg 1.8deg,
+          transparent 1.8deg 4deg
+        );
+      opacity:0.55;
+      mask-image:linear-gradient(90deg, black 0%, transparent 55%);
+      animation:cvfxSpeedShake 0.45s steps(2) infinite;
+    }
+    @keyframes cvfxSpeedShake{
+      0%,100%{ transform:translateX(0); }
+      50%{ transform:translateX(3px); }
+    }
+    .culture-vfx--about .cvfx-anime-burst{
+      position:absolute;
+      width:min(520px,90vw);
+      height:min(520px,90vw);
+      top:-18%;
+      right:-12%;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,42,138,0.14) 0%, rgba(0,245,255,0.08) 35%, transparent 65%);
+      animation:cvfxBurstPulse 5s ease-in-out infinite;
+    }
+    @keyframes cvfxBurstPulse{
+      0%,100%{ transform:scale(1) rotate(0deg); opacity:0.85; }
+      50%{ transform:scale(1.08) rotate(8deg); opacity:1; }
+    }
+    .cvfx-star{
+      position:absolute;
+      width:12px;
+      height:12px;
+      background:linear-gradient(135deg, #fff 0%, var(--genz-cyan) 100%);
+      clip-path:polygon(50% 0%, 65% 38%, 100% 38%, 72% 59%, 82% 100%, 50% 75%, 18% 100%, 28% 59%, 0% 38%, 35% 38%);
+      opacity:0.65;
+      filter:drop-shadow(0 0 6px rgba(255,42,138,0.8));
+      animation:cvfxStarFloat 4.5s ease-in-out infinite;
+    }
+    .culture-vfx--about .cvfx-star:nth-child(7){ left:8%; top:22%; animation-delay:0s; }
+    .culture-vfx--about .cvfx-star:nth-child(8){ left:18%; top:68%; animation-delay:0.6s; width:9px; height:9px; }
+    .culture-vfx--about .cvfx-star:nth-child(9){ right:14%; top:38%; animation-delay:1.1s; }
+    .culture-vfx--about .cvfx-star:nth-child(10){ right:22%; bottom:28%; animation-delay:0.3s; width:10px; height:10px; }
+    .culture-vfx--about .cvfx-star:nth-child(11){ left:42%; top:12%; animation-delay:1.8s; }
+    .culture-vfx--about .cvfx-star:nth-child(12){ left:55%; bottom:18%; animation-delay:0.9s; width:8px; height:8px; }
+    .culture-vfx--about .cvfx-star:nth-child(13){ right:8%; top:55%; animation-delay:2.2s; }
+    .culture-vfx--about .cvfx-star:nth-child(14){ left:28%; top:45%; animation-delay:1.4s; }
+    .culture-vfx--about .cvfx-star:nth-child(15){ right:35%; top:72%; animation-delay:0.2s; width:11px; height:11px; }
+    .culture-vfx--about .cvfx-star:nth-child(16){ left:65%; top:30%; animation-delay:2.8s; }
+    @keyframes cvfxStarFloat{
+      0%,100%{ transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+      50%{ transform:translate3d(8px,-14px,0) rotate(180deg) scale(1.15); }
+    }
+    .culture-vfx--about .cvfx-hh-block{
+      position:absolute;
+      border-radius:14px;
+      transform-style:preserve-3d;
+      background:linear-gradient(145deg, rgba(255,215,0,0.35), rgba(177,76,255,0.2));
+      border:1px solid rgba(255,215,0,0.45);
+      box-shadow:0 0 30px rgba(255,215,0,0.15), inset 0 0 20px rgba(255,255,255,0.1);
+    }
+    .culture-vfx--about .cvfx-hh-block--1{
+      width:min(100px,18vw);
+      height:min(72px,14vw);
+      bottom:12%;
+      left:6%;
+      animation:cvfxHHspin1 9s ease-in-out infinite;
+    }
+    .culture-vfx--about .cvfx-hh-block--2{
+      width:min(72px,14vw);
+      height:min(100px,20vw);
+      top:20%;
+      left:4%;
+      animation:cvfxHHspin2 11s ease-in-out infinite;
+    }
+    @keyframes cvfxHHspin1{
+      0%,100%{ transform:perspective(500px) rotateY(-18deg) rotateX(8deg) translateZ(0); }
+      50%{ transform:perspective(500px) rotateY(22deg) rotateX(-6deg) translateZ(24px); }
+    }
+    @keyframes cvfxHHspin2{
+      0%,100%{ transform:perspective(480px) rotateY(12deg) rotateX(-14deg); }
+      50%{ transform:perspective(480px) rotateY(-28deg) rotateX(10deg) translateY(-12px); }
+    }
+
+    /* CONTACT — vinyl, speaker grill, boom stack, anime accents */
+    .culture-vfx--contact .cvfx-vinyl{
+      position:absolute;
+      width:min(380px,70vw);
+      height:min(380px,70vw);
+      border-radius:50%;
+      bottom:-22%;
+      left:-14%;
+      background:
+        repeating-conic-gradient(from 0deg, #1a1a1a 0deg 4deg, #2a2a2a 4deg 5deg),
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12), transparent 45%);
+      border:10px solid rgba(255,215,0,0.35);
+      box-shadow:
+        inset 0 0 40px rgba(0,0,0,0.6),
+        0 0 60px rgba(255,42,138,0.12);
+      animation:cvfxVinylSpin 12s linear infinite;
+      opacity:0.55;
+    }
+    body.dark-mode .culture-vfx--contact .cvfx-vinyl{
+      opacity:0.5;
+      border-color:rgba(255,215,0,0.28);
+    }
+    @keyframes cvfxVinylSpin{
+      from{ transform:rotate(0deg); }
+      to{ transform:rotate(360deg); }
+    }
+    .culture-vfx--contact .cvfx-grill{
+      position:absolute;
+      top:10%;
+      right:4%;
+      width:min(140px,28vw);
+      height:min(220px,40vh);
+      border-radius:18px;
+      background:
+        repeating-linear-gradient(180deg, #0d0d0d 0 3px, #1f1f1f 3px 8px),
+        repeating-linear-gradient(90deg, transparent 0 6px, rgba(255,255,255,0.04) 6px 7px);
+      border:2px solid rgba(255,42,138,0.25);
+      transform:perspective(400px) rotateY(-12deg);
+      animation:cvfxGrillBob 6s ease-in-out infinite;
+      opacity:0.5;
+    }
+    @keyframes cvfxGrillBob{
+      0%,100%{ transform:perspective(400px) rotateY(-12deg) translateY(0); }
+      50%{ transform:perspective(400px) rotateY(-8deg) translateY(-10px); }
+    }
+    .culture-vfx--contact .cvfx-boom{
+      position:absolute;
+      bottom:8%;
+      right:8%;
+      display:flex;
+      gap:10px;
+      transform-style:preserve-3d;
+      animation:cvfxBoom3d 8s ease-in-out infinite;
+    }
+    .culture-vfx--contact .cvfx-boom span{
+      display:block;
+      width:36px;
+      height:48px;
+      border-radius:8px;
+      background:linear-gradient(180deg, rgba(255,215,0,0.4), rgba(20,20,20,0.85));
+      border:1px solid rgba(255,215,0,0.35);
+      box-shadow:0 8px 24px rgba(0,0,0,0.25);
+    }
+    .culture-vfx--contact .cvfx-boom span:nth-child(2){ height:56px; margin-top:-8px; }
+    .culture-vfx--contact .cvfx-boom span:nth-child(3){ height:44px; }
+    @keyframes cvfxBoom3d{
+      0%,100%{ transform:perspective(600px) rotateX(6deg) rotateY(-14deg); }
+      50%{ transform:perspective(600px) rotateX(-4deg) rotateY(10deg) translateZ(20px); }
+    }
+    .culture-vfx--contact .cvfx-manga-slash{
+      position:absolute;
+      top:5%;
+      left:15%;
+      width:min(200px,40vw);
+      height:8px;
+      background:linear-gradient(90deg, transparent, rgba(255,42,138,0.5), transparent);
+      border-radius:4px;
+      transform:rotate(-18deg) skewX(-24deg);
+      filter:blur(0.5px);
+      animation:cvfxSlash 3.5s ease-in-out infinite;
+      opacity:0.7;
+    }
+    @keyframes cvfxSlash{
+      0%,100%{ opacity:0.45; transform:rotate(-18deg) skewX(-24deg) scaleX(0.85); }
+      50%{ opacity:0.95; transform:rotate(-22deg) skewX(-28deg) scaleX(1.05); }
+    }
+    .culture-vfx--contact .cvfx-goal-arc{
+      position:absolute;
+      width:min(280px,55vw);
+      height:min(140px,28vw);
+      border:3px solid rgba(255,255,255,0.12);
+      border-bottom:none;
+      border-radius:min(280px,55vw) min(280px,55vw) 0 0;
+      bottom:0;
+      right:18%;
+      opacity:0.35;
+      animation:cvfxGoalGlow 4s ease-in-out infinite;
+    }
+    @keyframes cvfxGoalGlow{
+      0%,100%{ box-shadow:0 0 20px rgba(0,245,255,0.08); }
+      50%{ box-shadow:0 0 40px rgba(0,245,255,0.2); }
+    }
+
+    .contact-glass-vfx{
+      position:relative;
+      z-index:2;
+      animation:cvfxContactGlow 6s ease-in-out infinite;
+    }
+    @keyframes cvfxContactGlow{
+      0%,100%{
+        filter:
+          drop-shadow(0 0 22px rgba(255,42,138,0.22))
+          drop-shadow(0 0 48px rgba(255,215,0,0.08));
+      }
+      33%{
+        filter:
+          drop-shadow(0 0 32px rgba(0,245,255,0.2))
+          drop-shadow(0 0 40px rgba(177,76,255,0.12));
+      }
+      66%{
+        filter:
+          drop-shadow(0 0 28px rgba(255,215,0,0.28))
+          drop-shadow(0 0 36px rgba(255,42,138,0.15));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .culture-3d-canvas{ display:none !important; }
+      .culture-vfx--about *,
+      .culture-vfx--contact *{
+        animation:none !important;
+      }
+      .contact-glass-vfx{ animation:none !important; filter:none !important; }
+    }
+    @media(max-width:980px){
+      .culture-vfx--about .cvfx-hh-block--1,
+      .culture-vfx--about .cvfx-hh-block--2{ opacity:0.65; }
+      .culture-vfx--contact .cvfx-vinyl{ opacity:0.4; }
+    }
   </style>
 </head>
 
@@ -1162,6 +1675,8 @@
     </video>
   </div>
 
+  <canvas id="genz-canvas" aria-hidden="true"></canvas>
+
   <div class="overlay"></div>
   <div class="ambient ambient-1"></div>
   <div class="ambient ambient-2"></div>
@@ -1176,6 +1691,7 @@
   <nav id="nav">
     <div class="logo">Rishit<span>.</span></div>
     <ul class="nav-links">
+      <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -1185,26 +1701,59 @@
   </nav>
 
   <section class="hero">
+    <div class="genz-hero-deco" aria-hidden="true">
+      <div class="hz hz-1"></div>
+      <div class="hz hz-2"></div>
+      <div class="hz hz-3"></div>
+      <div class="hz hz-4"></div>
+    </div>
     <div class="hero-inner reveal">
       <div class="hero-content">
         <div class="hero-tag">PREMIUM PORTFOLIO</div>
-        <h1 class="hero-title">
+        <h1 class="hero-title hero-title--genz">
           I'm <span>Rishit Verma</span><br>
           I build premium digital experiences.
         </h1>
         <p class="hero-desc">
-          I'm an IT and Data Analysis student who builds at the intersection of technology, design, and entrepreneurship. My skill set spans Generative AI, frontend development, and data-driven problem solving. I work with C, Java, and Python at an intermediate level and use modern tools to create intelligent workflows, websites, and digital products. I also specialize in graphic design and UI/UX, focusing on clean, user-centered interfaces and strong visual identity.
-          <br><br>
-          Beyond tech, I run my own clothing brand where I explore branding, product design, and fashion culture. With a foundation in financial literacy, project management, and leadership, I focus on turning ideas into structured, scalable projects.
+          IT and Data Analysis student crafting premium digital experiences at the intersection of technology, design, and entrepreneurship.
         </p>
         <div class="hero-buttons">
           <a href="#work" class="btn btn-primary">Explore Work</a>
           <a href="#contact" class="btn btn-outline">Contact</a>
         </div>
       </div>
-      <div class="profile-wrap glass">
+      <div class="profile-wrap glass genz-profile-ring">
         <img class="profile-img" src="media/profilepic.jpeg" alt="Portrait of Rishit Verma"
           onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=900&q=80';">
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="reveal section-culture-about" style="position:relative;">
+    <div class="culture-stack" aria-hidden="true">
+      <canvas id="about-3d" class="culture-3d-canvas"></canvas>
+      <div class="culture-vfx culture-vfx--about">
+        <div class="cvfx-turf"></div>
+        <div class="cvfx-hex"></div>
+        <div class="cvfx-speedlines"></div>
+        <div class="cvfx-anime-burst"></div>
+        <div class="cvfx-hh-block cvfx-hh-block--1"></div>
+        <div class="cvfx-hh-block cvfx-hh-block--2"></div>
+        <span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span>
+        <span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span><span class="cvfx-star"></span>
+      </div>
+    </div>
+    <div class="culture-content">
+      <div class="section-num">01</div>
+      <h2 class="section-title">About</h2>
+      <p class="section-sub">Background, skills, and what drives the work — from code and GenAI to branding and fashion.</p>
+      <div class="glass about-panel">
+        <p class="hero-desc">
+          I'm an IT and Data Analysis student who builds at the intersection of technology, design, and entrepreneurship. My skill set spans Generative AI, frontend development, and data-driven problem solving. I work with C, Java, and Python at an intermediate level and use modern tools to create intelligent workflows, websites, and digital products. I also specialize in graphic design and UI/UX, focusing on clean, user-centered interfaces and strong visual identity.
+        </p>
+        <p class="hero-desc">
+          Beyond tech, I run my own clothing brand where I explore branding, product design, and fashion culture. With a foundation in financial literacy, project management, and leadership, I focus on turning ideas into structured, scalable projects.
+        </p>
       </div>
     </div>
   </section>
@@ -1270,12 +1819,17 @@
   <section id="skills" class="reveal" style="position:relative;">
     <div class="section-num">03</div>
     <h2 class="section-title">Skills</h2>
-    <p class="section-sub">A blend of design thinking and development skills to build premium digital experiences.</p>
+    <p class="section-sub">Design, code, data, motion, and sound — from UI and AI workflows to analytics, VFX, film, graphics, and music.</p>
     <div class="projects-grid">
       <div class="project glass"><div class="project-content"><h3>UI/UX Design</h3><p>Figma, wireframing, prototyping, layout systems, and clean modern UI design.</p></div></div>
       <div class="project glass"><div class="project-content"><h3>Frontend Development</h3><p>HTML, CSS, JavaScript, responsive design, and premium animations.</p></div></div>
       <div class="project glass"><div class="project-content"><h3>Branding</h3><p>Logo design, typography, brand identity, streetwear aesthetics, and moodboards.</p></div></div>
       <div class="project glass"><div class="project-content"><h3>AI & Workflow</h3><p>Prompt engineering, AI tools, Canva, GitHub workflow, fast creative prototyping.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Data Analytics</h3><p>Exploring and visualizing data — spreadsheets to Python, metrics, trends, and clear stories behind the numbers.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>VFX & Motion</h3><p>Motion graphics, compositing, and stylized effects for promos, social cuts, and branded visual punch.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>AI Filmmaking</h3><p>Short-form and concept video using generative AI — ideation, story beats, visuals, and fast iteration from prompt to frame.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Graphic Design</h3><p>Typography, layout, campaign assets, social graphics, and print-ready work aligned with brand systems.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Music Production</h3><p>Beats, arrangement, and mix basics for demos, content soundtracks, and sonic identity that matches the visual vibe.</p></div></div>
     </div>
   </section>
 
@@ -1284,6 +1838,16 @@
     <h2 class="section-title">Certifications</h2>
     <p class="section-sub">Verified learning milestones that strengthen my design and development expertise.</p>
     <div class="projects-grid">
+      <div class="project glass project--genz-cert">
+        <div class="project-badge">Graphic design</div>
+        <div class="cert-image cert-image--genz"><img src="media/graphicdesigncert.jpeg" alt="Graphic Design Certification" onerror="this.src='https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&q=80';"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Adobe</span><span>Visual</span><span>Brand</span></div>
+          <h3>Graphic Design Certification</h3>
+          <p>Typography, layout, color systems, and digital graphics — certified training in professional visual design workflows.</p>
+          <a href="#">View Certificate →</a>
+        </div>
+      </div>
       <div class="project glass">
         <div class="cert-image"><img src="media/genai.jpeg" alt="Generative AI Certification" onerror="this.src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&q=80';"></div>
         <div class="project-content">
@@ -1311,26 +1875,38 @@
     </div>
   </section>
 
-  <section id="contact" class="reveal">
-    <div class="glass" style="padding:88px 52px; border-radius:44px; text-align:center;">
-      <h2 class="section-title" style="display:block;">Contact</h2>
-      <p class="section-sub" style="margin:20px auto 36px;">
-        Want a premium website, UI/UX design, or branding?<br>
-        Let's collaborate and build something elite.
-      </p>
-      <a href="mailto:rv9207398@gmail.com" class="btn btn-outline" style="-webkit-text-fill-color:inherit;color:inherit;">
-        rishitvermapersonall@outlook.com
-      </a>
-      <div class="social-links">
-        <a href="https://github.com/rvx0098" target="_blank" class="social-icon" aria-label="GitHub">
-          <svg viewBox="0 0 24 24"><path d="M12 .5A12 12 0 0 0 8.21 23.9c.6.1.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.72.08-.72 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.94 0-1.32.47-2.4 1.23-3.24-.12-.3-.53-1.53.12-3.2 0 0 1.01-.32 3.3 1.24a11.43 11.43 0 0 1 6 0c2.29-1.56 3.3-1.24 3.3-1.24.65 1.67.24 2.9.12 3.2.77.84 1.23 1.92 1.23 3.24 0 4.61-2.8 5.64-5.48 5.94.43.37.81 1.1.81 2.23v3.3c0 .32.21.69.82.58A12 12 0 0 0 12 .5Z"/></svg>
+  <section id="contact" class="reveal section-culture-contact" style="position:relative;">
+    <div class="culture-stack" aria-hidden="true">
+      <canvas id="contact-3d" class="culture-3d-canvas"></canvas>
+      <div class="culture-vfx culture-vfx--contact">
+        <div class="cvfx-vinyl"></div>
+        <div class="cvfx-grill"></div>
+        <div class="cvfx-boom"><span></span><span></span><span></span></div>
+        <div class="cvfx-manga-slash"></div>
+        <div class="cvfx-goal-arc"></div>
+      </div>
+    </div>
+    <div class="culture-content">
+      <div class="glass contact-glass-vfx" style="padding:88px 52px; border-radius:44px; text-align:center;">
+        <h2 class="section-title" style="display:block;">Contact</h2>
+        <p class="section-sub" style="margin:20px auto 36px;">
+          Want a premium website, UI/UX design, or branding?<br>
+          Let's collaborate and build something elite.
+        </p>
+        <a href="mailto:rv9207398@gmail.com" class="btn btn-outline" style="-webkit-text-fill-color:inherit;color:inherit;">
+          rishitvermapersonall@outlook.com
         </a>
-        <a href="https://www.linkedin.com/in/rishit-verma/" target="_blank" class="social-icon" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5ZM.5 8h4v15h-4V8Zm7 0h3.83v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.09V23h-4v-7.8c0-1.86-.03-4.25-2.59-4.25-2.59 0-2.99 2.02-2.99 4.12V23h-4V8Z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/nvrmor._/" target="_blank" class="social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.85 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8A3.2 3.2 0 1 0 12 15.2 3.2 3.2 0 0 0 12 8.8Z"/></svg>
-        </a>
+        <div class="social-links">
+          <a href="https://github.com/rvx0098" target="_blank" class="social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 .5A12 12 0 0 0 8.21 23.9c.6.1.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.72.08-.72 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.94 0-1.32.47-2.4 1.23-3.24-.12-.3-.53-1.53.12-3.2 0 0 1.01-.32 3.3 1.24a11.43 11.43 0 0 1 6 0c2.29-1.56 3.3-1.24 3.3-1.24.65 1.67.24 2.9.12 3.2.77.84 1.23 1.92 1.23 3.24 0 4.61-2.8 5.64-5.48 5.94.43.37.81 1.1.81 2.23v3.3c0 .32.21.69.82.58A12 12 0 0 0 12 .5Z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/rishit-verma/" target="_blank" class="social-icon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5ZM.5 8h4v15h-4V8Zm7 0h3.83v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.09V23h-4v-7.8c0-1.86-.03-4.25-2.59-4.25-2.59 0-2.99 2.02-2.99 4.12V23h-4V8Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/nvrmor._/" target="_blank" class="social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.85 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8A3.2 3.2 0 1 0 12 15.2 3.2 3.2 0 0 0 12 8.8Z"/></svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -1597,6 +2173,23 @@
     }
     scene.add(shardGroup);
 
+    /* Gen Z wireframe chaos orbits (experience section) */
+    const chaosGroup=new THREE.Group();
+    const chaosCols=[0xff2a8a,0x00f5ff,0xc8ff00,0xb14cff,0xffee00,0xff3366,0x00ff88];
+    for(let i=0;i<8;i++){
+      const geo=new THREE.TorusKnotGeometry(0.85+Math.random()*0.55,0.05+Math.random()*0.06,42,6,2+Math.floor(Math.random()*4),3+Math.floor(Math.random()*4));
+      const mat=new THREE.MeshBasicMaterial({
+        color:chaosCols[i%chaosCols.length],
+        wireframe:true,
+        transparent:true,
+        opacity:0.26+Math.random()*0.12
+      });
+      const m=new THREE.Mesh(geo,mat);
+      m.userData.phase=i*1.17;
+      chaosGroup.add(m);
+    }
+    scene.add(chaosGroup);
+
     let mouseX=0,mouseY=0;
     window.addEventListener("mousemove",e=>{
       mouseX=(e.clientX/window.innerWidth-0.5)*2;
@@ -1650,6 +2243,17 @@
         s.rotation.y+=0.018*s.userData.speed;
       });
 
+      chaosGroup.children.forEach((m,i)=>{
+        const ang=t*(0.42+i*0.09)+m.userData.phase;
+        const rad=4.2+p*3.4+0.5*Math.sin(t*0.6+i);
+        m.position.x=Math.cos(ang)*rad;
+        m.position.z=Math.sin(ang)*rad;
+        m.position.y=Math.sin(t*1.15+i*0.7)*1.95-p*1.1;
+        m.rotation.x+=0.042;
+        m.rotation.y+=0.055;
+        m.rotation.z+=0.028;
+      });
+
       camera.position.x=mouseX*0.8;
       camera.position.y=p*1.9+mouseY*0.5;
       camera.lookAt(0,bounce,0);
@@ -1662,10 +2266,256 @@
     }
     animate();
 
+    /* GEN Z — full-viewport WebGL (neon knots + shards) */
+    const genzCanvas=document.getElementById("genz-canvas");
+    const genzReduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let genzRenderer,genzScene,genzCam,genzMeshes=[];
+    if(genzCanvas&&!genzReduceMotion&&typeof THREE!=="undefined"){
+      genzScene=new THREE.Scene();
+      genzCam=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,0.1,220);
+      genzCam.position.z=15;
+      genzRenderer=new THREE.WebGLRenderer({canvas:genzCanvas,alpha:true,antialias:true});
+      genzRenderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+      genzRenderer.setSize(window.innerWidth,window.innerHeight);
+      const neon=[0xff2a8a,0x00f5ff,0xc8ff00,0xb14cff,0xffee00];
+      for(let i=0;i<6;i++){
+        const geo=new THREE.TorusKnotGeometry(2+Math.random()*1.2,0.07+Math.random()*0.06,88,10,2+(i%4),3+(i%3));
+        const mat=new THREE.MeshBasicMaterial({
+          color:neon[i%neon.length],
+          wireframe:true,
+          transparent:true,
+          opacity:0.14+Math.random()*0.1
+        });
+        const mesh=new THREE.Mesh(geo,mat);
+        mesh.userData={ax:Math.random()*2-1,ay:Math.random()*2-1,sp:0.75+Math.random()*0.9,idx:i};
+        genzMeshes.push(mesh);
+        genzScene.add(mesh);
+      }
+      const shardGeo=new THREE.OctahedronGeometry(0.22,0);
+      for(let j=0;j<55;j++){
+        const sm=new THREE.Mesh(shardGeo,new THREE.MeshBasicMaterial({
+          color:neon[j%neon.length],
+          wireframe:true,
+          transparent:true,
+          opacity:0.06+Math.random()*0.08
+        }));
+        const bx=(Math.random()-0.5)*42;
+        const by=(Math.random()-0.5)*28;
+        const bz=(Math.random()-0.5)*32;
+        sm.position.set(bx,by,bz);
+        sm.userData={rv:0.02+Math.random()*0.04,baseY:by,baseX:bx,baseZ:bz,j};
+        genzMeshes.push(sm);
+        genzScene.add(sm);
+      }
+      function genzTick(){
+        requestAnimationFrame(genzTick);
+        const gt=Date.now()*0.001;
+        genzMeshes.forEach((m)=>{
+          if(m.userData.idx!==undefined){
+            m.rotation.x+=0.014*m.userData.sp*m.userData.ax;
+            m.rotation.y+=0.022*m.userData.sp*m.userData.ay;
+            m.rotation.z+=0.01*m.userData.sp;
+            const i=m.userData.idx;
+            const ang=gt*(0.18+i*0.04)+i*2.1;
+            const rad=7.5+Math.sin(gt*0.25+i)*2.8;
+            m.position.set(Math.cos(ang)*rad,Math.sin(gt*0.55+i)*2.2,Math.sin(ang)*rad);
+          }else if(m.userData.rv){
+            m.rotation.x+=m.userData.rv;
+            m.rotation.y+=m.userData.rv*1.3;
+            const u=m.userData;
+            m.position.y=u.baseY+Math.sin(gt*0.85+u.j*0.2)*0.55;
+            m.position.x=u.baseX+Math.cos(gt*0.35+u.j)*0.35;
+            m.position.z=u.baseZ+Math.sin(gt*0.28+u.j*0.15)*0.35;
+          }
+        });
+        genzCam.position.x=Math.sin(gt*0.14)*3.2;
+        genzCam.position.y=Math.cos(gt*0.11)*2.1;
+        genzCam.lookAt(0,0,0);
+        genzRenderer.render(genzScene,genzCam);
+      }
+      genzTick();
+    }
+
+    function resizeCulture3D(){
+      const aSec=document.getElementById("about");
+      const cSec=document.getElementById("contact");
+      if(cultureAboutR&&cultureAboutC&&aSec){
+        const w=aSec.offsetWidth,h=aSec.offsetHeight;
+        if(w>0&&h>0){
+          cultureAboutC.aspect=w/h;
+          cultureAboutC.updateProjectionMatrix();
+          cultureAboutR.setSize(w,h);
+        }
+      }
+      if(cultureContactR&&cultureContactC&&cSec){
+        const w=cSec.offsetWidth,h=cSec.offsetHeight;
+        if(w>0&&h>0){
+          cultureContactC.aspect=w/h;
+          cultureContactC.updateProjectionMatrix();
+          cultureContactR.setSize(w,h);
+        }
+      }
+    }
+
+    let cultureAboutR,cultureAboutS,cultureAboutC,cultureAboutM=[];
+    let cultureContactR,cultureContactS,cultureContactC,cultureContactM=[];
+    let cultureAboutOn=false,cultureContactOn=false;
+
+    if(!genzReduceMotion&&typeof THREE!=="undefined"){
+      const aEl=document.getElementById("about-3d");
+      const cEl=document.getElementById("contact-3d");
+      const aSec=document.getElementById("about");
+      const cSec=document.getElementById("contact");
+      const wf=(col,op)=>new THREE.MeshBasicMaterial({color:col,wireframe:true,transparent:true,opacity:op});
+
+      if(aEl&&aSec){
+        cultureAboutS=new THREE.Scene();
+        cultureAboutC=new THREE.PerspectiveCamera(58,1,0.1,80);
+        cultureAboutC.position.z=9;
+        cultureAboutR=new THREE.WebGLRenderer({canvas:aEl,alpha:true,antialias:true});
+        cultureAboutR.setClearColor(0x000000,0);
+        cultureAboutR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+        const ball=new THREE.Mesh(new THREE.IcosahedronGeometry(1.35,1),wf(0x22c55e,0.34));
+        ball.position.set(0,0,0);
+        ball.userData={by:0};
+        const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,0.12,16,40),wf(0xff2a8a,0.3));
+        ring.position.set(2.8,0.5,0);
+        ring.userData={by:0.5};
+        const bling=new THREE.Mesh(new THREE.BoxGeometry(1.05,1.05,1.05),wf(0xffd700,0.26));
+        bling.position.set(-2.4,-0.7,0.6);
+        bling.userData={by:-0.7};
+        const spark=new THREE.Mesh(new THREE.OctahedronGeometry(0.32,0),wf(0x00f5ff,0.42));
+        spark.position.set(1.1,-1.4,0.2);
+        spark.userData={by:-1.4};
+        cultureAboutM=[ball,ring,bling,spark];
+        cultureAboutM.forEach(m=>cultureAboutS.add(m));
+      }
+
+      if(cEl&&cSec){
+        cultureContactS=new THREE.Scene();
+        cultureContactC=new THREE.PerspectiveCamera(52,1,0.1,80);
+        cultureContactC.position.z=11;
+        cultureContactR=new THREE.WebGLRenderer({canvas:cEl,alpha:true,antialias:true});
+        cultureContactR.setClearColor(0x000000,0);
+        cultureContactR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+        const vinyl=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.1,0.06,56),wf(0x444444,0.38));
+        vinyl.rotation.x=Math.PI/2;
+        vinyl.position.set(-2.9,-0.4,0);
+        const sp1=new THREE.Mesh(new THREE.BoxGeometry(0.85,1.35,0.32),wf(0xff2a8a,0.28));
+        sp1.position.set(2.7,0.35,0.4);
+        sp1.userData={by:0.35};
+        const sp2=new THREE.Mesh(new THREE.BoxGeometry(0.85,1.35,0.32),wf(0x00f5ff,0.26));
+        sp2.position.set(3.45,-0.35,-0.15);
+        sp2.userData={by:-0.35};
+        const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(0.62,0.12,40,8,2,3),wf(0xffd700,0.36));
+        knot.position.set(0.4,1.15,0);
+        knot.userData={by:1.15};
+        cultureContactM=[vinyl,sp1,sp2,knot];
+        vinyl.userData={by:-0.4};
+        cultureContactM.forEach(m=>cultureContactS.add(m));
+      }
+
+      resizeCulture3D();
+      requestAnimationFrame(()=>resizeCulture3D());
+
+      const cultIO=new IntersectionObserver(ents=>{
+        ents.forEach(en=>{
+          if(en.target.id==="about") cultureAboutOn=en.isIntersecting;
+          if(en.target.id==="contact") cultureContactOn=en.isIntersecting;
+        });
+      },{threshold:0.05,rootMargin:"-4% 0px -4% 0px"});
+      if(aSec) cultIO.observe(aSec);
+      if(cSec) cultIO.observe(cSec);
+
+      function culture3dTick(){
+        requestAnimationFrame(culture3dTick);
+        const t=Date.now()*0.001;
+        if(cultureAboutOn&&cultureAboutR&&cultureAboutS&&cultureAboutC&&cultureAboutM.length){
+          cultureAboutM.forEach((m,i)=>{
+            m.rotation.x+=0.016+0.003*i;
+            m.rotation.y+=0.022+0.002*i;
+            m.position.y=m.userData.by+Math.sin(t*0.92+i*1.2)*0.26;
+          });
+          cultureAboutC.position.x=Math.sin(t*0.19)*0.75;
+          cultureAboutC.lookAt(0,0,0);
+          cultureAboutR.render(cultureAboutS,cultureAboutC);
+        }
+        if(cultureContactOn&&cultureContactR&&cultureContactS&&cultureContactC&&cultureContactM.length){
+          cultureContactM[0].rotation.x=Math.PI/2;
+          cultureContactM[0].rotation.z+=0.032;
+          for(let i=1;i<cultureContactM.length;i++){
+            const m=cultureContactM[i];
+            m.rotation.x+=0.012;
+            m.rotation.y+=0.022;
+            m.position.y=m.userData.by+Math.sin(t*1.1+i)*0.22;
+          }
+          cultureContactC.position.x=Math.cos(t*0.15)*0.65;
+          cultureContactC.position.y=Math.sin(t*0.12)*0.32;
+          cultureContactC.lookAt(0,0,0);
+          cultureContactR.render(cultureContactS,cultureContactC);
+        }
+      }
+      culture3dTick();
+    }
+
+    function updateGenzLayerOpacity(){
+      if(!genzCanvas)return;
+      const hero=document.querySelector(".hero");
+      const certs=document.getElementById("certifications");
+      const about=document.getElementById("about");
+      let o=0.1;
+      if(hero){
+        const hr=hero.getBoundingClientRect();
+        const v=Math.max(0,Math.min(1,1-Math.max(0,hr.top)/(window.innerHeight*0.9)));
+        o=Math.max(o,0.06+v*0.36);
+      }
+      if(about){
+        const ar=about.getBoundingClientRect();
+        if(ar.top<window.innerHeight&&ar.bottom>0)o=Math.max(o,0.22);
+      }
+      if(certs){
+        const cr=certs.getBoundingClientRect();
+        if(cr.top<window.innerHeight&&cr.bottom>0)o=Math.max(o,0.3);
+      }
+      const exp=document.getElementById("experience");
+      if(exp){
+        const er=exp.getBoundingClientRect();
+        if(er.top<window.innerHeight&&er.bottom>0)o=Math.max(o,0.2);
+      }
+      const contactEl=document.getElementById("contact");
+      if(contactEl){
+        const ctr=contactEl.getBoundingClientRect();
+        if(ctr.top<window.innerHeight&&ctr.bottom>0)o=Math.max(o,0.26);
+      }
+      genzCanvas.style.opacity=o.toFixed(3);
+    }
+    if(genzCanvas&&!genzReduceMotion){
+      window.addEventListener("scroll",updateGenzLayerOpacity,{passive:true});
+      updateGenzLayerOpacity();
+    }
+
+    if(!genzReduceMotion){
+      document.querySelectorAll("#certifications .project").forEach(card=>{
+        card.addEventListener("mousemove",e=>{
+          const r=card.getBoundingClientRect();
+          const x=(e.clientX-r.left)/r.width-0.5;
+          const y=(e.clientY-r.top)/r.height-0.5;
+          card.style.transform=`perspective(920px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateY(-16px) scale(1.02)`;
+        });
+        card.addEventListener("mouseleave",()=>{ card.style.transform=""; });
+      });
+    }
+
     window.addEventListener("resize",()=>{
       camera.aspect=window.innerWidth/window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth,window.innerHeight);
+      if(genzRenderer&&genzCam){
+        genzCam.aspect=window.innerWidth/window.innerHeight;
+        genzCam.updateProjectionMatrix();
+        genzRenderer.setSize(window.innerWidth,window.innerHeight);
+      }
+      resizeCulture3D();
     });
   </script>
 </body>
