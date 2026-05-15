@@ -61,57 +61,6 @@ portfolio_storytelling/
 +-- SECURITY.md             # Security policy and reporting guidance
 ```
 
-## Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Rvx0098/portfolio_storytelling.git
-cd portfolio_storytelling
-```
-
-### 2. Run Locally
-
-Because this is a static site, no package installation is required.
-
-Open `index.html` directly in a browser, or serve it locally:
-
-```bash
-python -m http.server 8000
-```
-
-Then visit:
-
-```text
-http://localhost:8000
-```
-
-### 3. Deploy
-
-Recommended deployment options:
-
-| Platform | Notes |
-| --- | --- |
-| GitHub Pages | Best fit for this repository's static structure |
-| Netlify | Drag-and-drop or Git-connected deployment |
-| Vercel | Static project deployment with CDN caching |
-
-For GitHub Pages, set the publishing source to the repository root on the default branch.
-
-## Screenshots
-
-Add visual previews here to make the repository stronger for recruiters and portfolio reviewers.
-
-| Section | Suggested Preview |
-| --- | --- |
-| Hero | Animated hero with profile frame |
-| Work | Project card grid |
-| Certifications | Certificate modal preview |
-| Contact | Final CTA and social links |
-
-```markdown
-![Hero Preview](media/portfolio-preview.png)
-```
 
 ## Security
 
@@ -133,21 +82,7 @@ A full security policy is available in [SECURITY.md](SECURITY.md).
 - `prefers-reduced-motion` checks reduce heavy motion for users who request it
 - Preconnected Google Fonts improve font loading behavior
 
-Recommended next optimizations:
 
-- Compress large MP4 files in `media/`
-- Add responsive image variants for certificates and profile media
-- Lazy-load below-the-fold certificate images
-- Add Lighthouse-based performance checks before major releases
-
-## Roadmap
-
-- Add a live screenshot or GIF preview to the README
-- Split CSS and JavaScript into dedicated files for maintainability
-- Add Open Graph metadata and a share preview image
-- Replace placeholder certificate links with verified credential URLs
-- Add automated HTML validation and accessibility checks
-- Add a deployment guide for GitHub Pages
 
 ## API Documentation
 
