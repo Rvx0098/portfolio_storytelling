@@ -161,8 +161,59 @@
       width:100%;
       height:100%;
       object-fit:cover;
-      opacity:0.055;
-      filter:grayscale(80%) contrast(130%);
+      opacity:0.18;
+      filter:grayscale(100%) contrast(1.2) brightness(0.38) sepia(0.08);
+      mix-blend-mode:overlay;
+    }
+
+    .gothic-vfx{
+      position:fixed;
+      inset:0;
+      z-index:-8;
+      pointer-events:none;
+      overflow:hidden;
+      mix-blend-mode:screen;
+    }
+    .gothic-flare{
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,0.18), transparent 45%);
+      filter:blur(20px);
+      opacity:0.34;
+      animation:flareFloat 12s ease-in-out infinite;
+    }
+    .gothic-flare:first-child{ top:10%; left:12%; background:radial-gradient(circle, rgba(255,255,255,0.18), rgba(255,46,190,0.10), transparent 45%); }
+    .gothic-flare:nth-child(2){ bottom:10%; right:14%; transform:scale(0.78); background:radial-gradient(circle, rgba(0,244,255,0.18), rgba(255,255,255,0.06), transparent 45%); }
+    .gothic-hud{
+      position:absolute;
+      left:8%;
+      top:16%;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      z-index:1;
+    }
+    .gothic-hud-label,
+    .gothic-hud-note{
+      color:rgba(255,255,255,0.86);
+      letter-spacing:0.28em;
+      text-transform:uppercase;
+      font-family:var(--fontBody);
+      text-shadow:0 0 18px rgba(0,0,0,0.26);
+    }
+    .gothic-hud-label{
+      font-size:0.78rem;
+      font-weight:800;
+    }
+    .gothic-hud-note{
+      font-size:0.68rem;
+      opacity:0.78;
+    }
+    @keyframes flareFloat{
+      0%,100%{ transform:translateY(0) scale(1); }
+      50%{ transform:translateY(18px) scale(1.02); }
     }
 
     /* GEN Z — global WebGL + chrome (fixed layer above video) */
@@ -192,61 +243,69 @@
     }
     .genz-hero-deco .hz{
       position:absolute;
-      border:2px solid transparent;
-      background:
-        linear-gradient(var(--creme), var(--creme)) padding-box,
-        linear-gradient(135deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet)) border-box;
-      border-radius:20%;
-      opacity:0.55;
+      border:1px solid rgba(255,255,255,0.18);
+      background:rgba(255,255,255,0.08);
+      border-radius:50%;
+      opacity:0.78;
       transform-style:preserve-3d;
       box-shadow:
-        0 0 24px rgba(255,42,138,0.25),
-        0 0 40px rgba(0,245,255,0.15),
-        inset 0 0 20px rgba(255,255,255,0.12);
+        0 0 42px rgba(255,255,255,0.16),
+        inset 0 0 24px rgba(255,255,255,0.08),
+        0 0 120px rgba(0,244,255,0.08);
+      backdrop-filter:blur(18px);
+      overflow:hidden;
+    }
+    .genz-hero-deco .hz::before{
+      content:"";
+      position:absolute;
+      inset:12%;
+      border-radius:inherit;
+      border:1px solid rgba(255,255,255,0.12);
+      opacity:0.85;
+      box-shadow:0 0 18px rgba(255,255,255,0.12);
     }
     body.dark-mode .genz-hero-deco .hz{
-      background:
-        linear-gradient(rgba(12,12,12,0.2), rgba(12,12,12,0.2)) padding-box,
-        linear-gradient(135deg, var(--genz-pink), var(--genz-cyan), var(--genz-lime), var(--genz-violet)) border-box;
-      opacity:0.65;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.12);
+      opacity:0.88;
     }
     .genz-hero-deco .hz-1{
-      width:min(180px,28vw);
-      height:min(180px,28vw);
+      width:min(180px,26vw);
+      height:min(180px,26vw);
       top:8%;
-      right:4%;
-      animation:hzSpin1 14s linear infinite;
+      right:6%;
+      animation:hzGlide1 18s ease-in-out infinite;
     }
     .genz-hero-deco .hz-2{
-      width:min(120px,22vw);
-      height:min(120px,22vw);
-      bottom:18%;
-      left:2%;
-      border-radius:35% 65% 70% 30% / 30% 40% 60% 70%;
-      animation:hzSpin2 18s linear infinite reverse;
+      width:min(140px,24vw);
+      height:min(140px,20vw);
+      bottom:16%;
+      left:3%;
+      border-radius:60% 40% 45% 55% / 45% 60% 40% 55%;
+      animation:hzGlide2 20s ease-in-out infinite;
     }
     .genz-hero-deco .hz-3{
-      width:min(90px,16vw);
-      height:min(90px,16vw);
-      top:42%;
-      left:8%;
-      animation:hzSpin1 11s linear infinite;
+      width:min(110px,18vw);
+      height:min(110px,18vw);
+      top:38%;
+      left:10%;
+      animation:hzGlide1 15s ease-in-out infinite;
     }
     .genz-hero-deco .hz-4{
-      width:min(70px,14vw);
-      height:min(140px,24vw);
-      bottom:32%;
-      right:12%;
-      border-radius:12px;
-      animation:hzSpin2 9s linear infinite;
+      width:min(80px,16vw);
+      height:min(140px,22vw);
+      bottom:30%;
+      right:14%;
+      border-radius:48% 52% 58% 42% / 54% 48% 52% 46%;
+      animation:hzGlide2 12s ease-in-out infinite;
     }
-    @keyframes hzSpin1{
-      from{ transform:perspective(400px) rotateX(12deg) rotateY(0deg) rotateZ(0deg); }
-      to{ transform:perspective(400px) rotateX(12deg) rotateY(360deg) rotateZ(18deg); }
+    @keyframes hzGlide1{
+      0%,100%{ transform:translateY(0) rotateX(12deg) rotateY(0deg) rotateZ(0deg); }
+      50%{ transform:translateY(18px) rotateX(10deg) rotateY(180deg) rotateZ(6deg); }
     }
-    @keyframes hzSpin2{
-      from{ transform:perspective(500px) rotateX(-20deg) rotateY(0deg) translateZ(0); }
-      to{ transform:perspective(500px) rotateX(-20deg) rotateY(-360deg) translateZ(12px); }
+    @keyframes hzGlide2{
+      0%,100%{ transform:translateY(0) rotateX(-18deg) rotateY(0deg) translateZ(0); }
+      50%{ transform:translateY(-16px) rotateX(-18deg) rotateY(-180deg) translateZ(10px); }
     }
 
     .hero-title--genz{
@@ -514,6 +573,16 @@
       scroll-snap-align:start;
     }
 
+    section > * + * {
+      margin-top: clamp(1.2rem, 2.2vw, 2.8rem);
+    }
+
+    .contact-glass-vfx {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 88px 52px;
+    }
+
     /* HERO */
     .hero{
       position:relative;
@@ -594,6 +663,48 @@
       margin-bottom:44px;
       max-width:700px;
       font-weight:520;
+    }
+    .hero-subtag{
+      font-size:0.88rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:rgba(0,0,0,0.55);
+      margin-bottom:14px;
+      display:inline-block;
+      background:rgba(255,255,255,0.72);
+      padding:8px 18px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.08);
+      box-shadow:0 16px 40px rgba(0,0,0,0.06);
+    }
+
+    .hero-hud{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(120px, auto));
+      gap:14px;
+      font-size:0.82rem;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:#1b1b1f;
+      max-width:840px;
+      background:rgba(255,255,255,0.72);
+      border:1px solid rgba(255,255,255,0.85);
+      backdrop-filter:blur(18px);
+      padding:18px 22px;
+      border-radius:24px;
+      box-shadow:0 42px 90px rgba(30,20,16,0.08);
+      position:relative;
+      z-index:3;
+    }
+    .hero-hud span{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:52px;
+      border-radius:16px;
+      background:rgba(22,11,37,0.04);
+      border:1px solid rgba(255,255,255,0.6);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);
     }
     body.dark-mode .hero-desc{ color:rgba(255,255,255,0.72); }
 
@@ -727,9 +838,9 @@
     }
     @keyframes profileFloat{ 0%,100%{transform:translateY(0px) scale(1);} 50%{transform:translateY(-16px) scale(1.02);} }
 
-    /* PRODUCT SECTION */
-    .product-section{
-      min-height:300vh;
+    /* EXPERIENCE SECTION */
+    .product-section, .experience-section{
+      min-height:180vh;
       position:relative;
     }
     .product-sticky{
@@ -758,7 +869,7 @@
       padding:0 10vw;
     }
     .product-text{
-      max-width:800px;
+      max-width:780px;
       text-align:center;
       opacity:0;
       transform:translateY(60px) scale(0.97);
@@ -786,8 +897,97 @@
       line-height:1.9;
       color:rgba(0,0,0,0.62);
       font-weight:500;
+      max-width:760px;
+      margin:auto;
     }
     body.dark-mode .product-text p{ color:rgba(255,255,255,0.62); }
+    .experience-panel{
+      max-width:1300px;
+      margin:0 auto;
+      padding:64px 9vw 120px;
+      display:flex;
+      flex-direction:column;
+      gap:30px;
+    }
+    .experience-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
+    }
+    .experience-card{
+      overflow:hidden;
+      position:relative;
+      border-radius:32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88));
+      border:1px solid rgba(255,255,255,0.85);
+      box-shadow:0 18px 50px rgba(0,0,0,0.08);
+      transition:transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease, background 0.45s ease;
+    }
+    .experience-card:hover{
+      transform:translateY(-12px);
+      box-shadow:0 34px 90px rgba(0,0,0,0.16);
+      background:linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,0.92));
+    }
+    .experience-media{
+      height:240px;
+      overflow:hidden;
+      border-radius:28px 28px 0 0;
+      position:relative;
+      background:rgba(0,0,0,0.04);
+      border-bottom:1px solid rgba(176,139,87,0.14);
+    }
+    .experience-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform 0.8s ease;
+    }
+    .experience-card:hover .experience-media img{
+      transform:scale(1.05);
+    }
+    .experience-card-content{
+      padding:28px 26px 32px;
+    }
+    .experience-card-content h3{
+      font-family:var(--fontDisplay);
+      font-size:1.38rem;
+      margin-bottom:12px;
+      letter-spacing:-0.03em;
+    }
+    .experience-card-content p{
+      font-size:0.96rem;
+      line-height:1.88;
+      margin-bottom:18px;
+      color:rgba(0,0,0,0.64);
+      font-weight:500;
+    }
+    .experience-card-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .experience-card-tags span{
+      font-size:0.70rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(176,139,87,0.12);
+      color:rgba(0,0,0,0.72);
+    }
+    .experience-card .project-badge{
+      position:absolute;
+      top:20px;
+      left:20px;
+      padding:8px 14px;
+      font-size:0.70rem;
+      background:rgba(12,12,12,0.75);
+      color:white;
+      text-shadow:0 0 8px rgba(0,0,0,0.15);
+      z-index:12;
+    }
 
     /* TITLES */
     .section-title{
@@ -820,13 +1020,178 @@
     }
     body.dark-mode .section-sub{ color:rgba(255,255,255,0.62); }
 
+    .section-branch{
+      position:relative;
+      overflow:hidden;
+      padding-top:100px;
+      padding-bottom:88px;
+    }
+    .section-branch .branch-lines{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 16% 18%, rgba(176,139,87,0.08), transparent 24%),
+        radial-gradient(circle at 82% 22%, rgba(176,139,87,0.06), transparent 18%),
+        linear-gradient(180deg, transparent 0%, transparent 28%, rgba(176,139,87,0.08) 28%, rgba(176,139,87,0.08) 30%, transparent 30%, transparent 100%);
+      background-size:100% 100%, 100% 100%, 4px 100%;
+      background-position:0 0, 0 0, 50% 0;
+      opacity:0.48;
+      transform:translateZ(0);
+    }
+    .section-branch::before,
+    .section-branch::after{
+      content:"";
+      position:absolute;
+      width:2px;
+      height:calc(100% - 180px);
+      background:linear-gradient(180deg, rgba(176,139,87,0.25), rgba(176,139,87,0));
+      left:14%;
+      top:120px;
+      border-radius:999px;
+      filter:blur(0.8px);
+      opacity:0.45;
+    }
+    .section-branch::after{
+      left:auto;
+      right:12%;
+      background:linear-gradient(180deg, rgba(176,139,87,0.15), rgba(176,139,87,0));
+    }
+    .section-branch .experience-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:28px;
+      position:relative;
+      z-index:2;
+    }
+    .experience-card{
+      overflow:hidden;
+      position:relative;
+      border-radius:32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.88));
+      border:1px solid rgba(255,255,255,0.82);
+      box-shadow:0 18px 50px rgba(0,0,0,0.08);
+      transition:transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease, background 0.45s ease;
+    }
+    .experience-card:hover{
+      transform:translateY(-14px);
+      box-shadow:0 36px 106px rgba(0,0,0,0.14);
+      background:linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,0.94));
+    }
+    .experience-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:radial-gradient(circle at top left, rgba(176,139,87,0.08), transparent 36%);
+      opacity:0.8;
+    }
+    .experience-card .experience-media{height:220px;}
+    .experience-card .project-badge{
+      top:18px;
+      left:18px;
+      background:rgba(12,12,12,0.8);
+    }
+    .experience-card-tags span{
+      background:rgba(176,139,87,0.12);
+      color:rgba(0,0,0,0.74);
+    }
+    .experience-card-content h3{
+      font-size:1.32rem;
+      margin-bottom:14px;
+    }
+    .experience-card-content p{
+      color:rgba(0,0,0,0.66);
+      margin-bottom:22px;
+    }
+    body.dark-mode .experience-card{
+      background:linear-gradient(180deg, rgba(12,12,12,0.78), rgba(12,12,12,0.64));
+      border:1px solid rgba(176,139,87,0.14);
+      box-shadow:0 18px 50px rgba(0,0,0,0.28);
+    }
+    body.dark-mode .experience-card::before{
+      background:radial-gradient(circle at top left, rgba(176,139,87,0.06), transparent 36%);
+    }
+    body.dark-mode .experience-card-tags span{
+      background:rgba(176,139,87,0.08);
+      color:rgba(255,255,255,0.82);
+    }
+    body.dark-mode .experience-card-content p{color:rgba(255,255,255,0.72);}
+
     .projects-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(330px, 1fr));
       gap:24px;
     }
 
-    /* GLASS */
+    .education-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:24px;
+      margin-top:28px;
+      position:relative;
+      z-index:2;
+    }
+    .education-node{
+      min-height:220px;
+      padding:28px;
+      border-radius:32px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      background:rgba(255,255,255,0.96);
+      border:1px solid rgba(255,255,255,0.84);
+      box-shadow:0 20px 60px rgba(0,0,0,0.08);
+      transition:transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .education-node:hover{
+      transform:translateY(-10px);
+      box-shadow:0 28px 82px rgba(0,0,0,0.14);
+    }
+    .education-node .node-title{
+      display:block;
+      font-family:var(--fontDisplay);
+      font-size:1.32rem;
+      font-weight:800;
+      letter-spacing:-0.03em;
+    }
+    .education-node p{
+      color:rgba(0,0,0,0.66);
+      line-height:1.8;
+      font-size:0.95rem;
+    }
+    .education-tree{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+    }
+    .tree-node{
+      position:absolute;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:rgba(176,139,87,0.95);
+      box-shadow:0 0 18px rgba(176,139,87,0.28);
+    }
+    .tree-root{top:30px; left:50%; transform:translateX(-50%);}
+    .tree-left{top:180px; left:20%;}
+    .tree-right{top:180px; right:20%;}
+    .tree-branch{
+      position:absolute;
+      width:2px;
+      background:rgba(176,139,87,0.28);
+      border-radius:999px;
+    }
+    .branch-left{top:42px; left:50%; height:140px; transform:translateX(-50%);}
+    .branch-right{top:42px; right:50%; height:140px; transform:translateX(50%);}
+
+    body.dark-mode .education-node{
+      background:rgba(12,12,12,0.78);
+      border:1px solid rgba(176,139,87,0.14);
+      box-shadow:0 20px 60px rgba(0,0,0,0.24);
+    }
+    body.dark-mode .education-node p{color:rgba(255,255,255,0.74);}
     .glass{
       border-radius:32px;
       background:rgba(255,255,255,0.60);
@@ -924,33 +1289,29 @@
     }
 
     .project-img{
-      height:220px;
-      background:var(--card-bg, linear-gradient(135deg, rgba(176,139,87,0.22), rgba(255,255,255,0.90)));
+      min-height:240px;
       position:relative;
       overflow:hidden;
+      border-radius:32px 32px 0 0;
+      background:rgba(176,139,87,0.12);
     }
-    body.dark-mode .project-img{
-      background:linear-gradient(135deg, rgba(176,139,87,0.28), rgba(0,0,0,0.88));
+    .project-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform 0.8s ease;
     }
-    .project-img::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:url("https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1400&q=80") center/cover no-repeat;
-      opacity:0.30;
-      filter:grayscale(12%);
-      transition:0.7s cubic-bezier(.4,0,.2,1);
-    }
-    .project:hover .project-img::after{
-      transform:scale(1.10);
-      opacity:0.48;
+    .project:hover .project-img img {
+      transform:scale(1.05);
     }
     .project-img::before{
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,0.60), transparent 65%);
+      background:linear-gradient(to top, rgba(0,0,0,0.32), transparent 60%);
       z-index:1;
+      pointer-events:none;
     }
 
     .project-content{ padding:32px; }
@@ -2096,6 +2457,61 @@
     }
     .about-panel .hero-desc + .hero-desc{ margin-top:1.35em; }
 
+    .resume-panel .resume-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      margin-bottom:24px;
+    }
+    .resume-preview{
+      width:100%;
+      min-height:520px;
+      border-radius:24px;
+      overflow:hidden;
+      background:rgba(248,245,239,0.8);
+      border:1px solid rgba(176,139,87,0.18);
+    }
+    .resume-preview p{
+      padding:28px;
+      font-size:0.95rem;
+      line-height:1.8;
+      color:rgba(34,34,34,0.82);
+    }
+
+    .process-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:22px;
+      margin-top:30px;
+    }
+    .process-card{
+      padding:28px 24px;
+      border-radius:28px;
+      min-height:220px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      gap:16px;
+      background:rgba(255,255,255,0.88);
+      border:1px solid rgba(255,255,255,0.85);
+      box-shadow:0 22px 64px rgba(0,0,0,0.08);
+      transition:transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .process-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 28px 82px rgba(0,0,0,0.12);
+    }
+    .process-card h3{
+      font-size:1.1rem;
+      letter-spacing:-0.03em;
+      margin-bottom:6px;
+    }
+    .process-card p{
+      color:rgba(0,0,0,0.66);
+      line-height:1.8;
+      font-size:0.95rem;
+    }
+
     /* ABOUT + CONTACT — anime / football / hip-hop culture layers */
     .section-culture-about,
     .section-culture-contact{
@@ -2409,6 +2825,15 @@
     </video>
   </div>
 
+  <div class="gothic-vfx" aria-hidden="true">
+    <span class="gothic-flare"></span>
+    <span class="gothic-flare"></span>
+    <div class="gothic-hud">
+      <span class="gothic-hud-label">PROFESSIONAL STUDIO</span>
+      <span class="gothic-hud-note">DESIGN · DATA · DIGITAL</span>
+    </div>
+  </div>
+
   <canvas id="genz-canvas" aria-hidden="true"></canvas>
 
   <div class="overlay"></div>
@@ -2429,6 +2854,7 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
       <li><a href="#certifications">Certifications</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -2449,8 +2875,9 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 
-  <section class="hero">
-    <div class="genz-hero-deco" aria-hidden="true">
+  <main>
+    <section class="hero">
+      <div class="genz-hero-deco" aria-hidden="true">
       <div class="hz hz-1"></div>
       <div class="hz hz-2"></div>
       <div class="hz hz-3"></div>
@@ -2458,16 +2885,24 @@
     </div>
     <div class="hero-inner reveal">
       <div class="hero-content">
-        <div class="hero-tag">PREMIUM PORTFOLIO</div>
+        <div class="hero-tag">PREMIUM DIGITAL EXPERIENCE</div>
+        <div class="hero-subtag">Multidisciplinary product design, AI, and data-driven web systems.</div>
         <h1 class="hero-title hero-title--genz">
           I'm <span>Rishit Verma</span><br>
-          I build premium digital experiences.
+          I build premium digital experiences that feel modern and polished.
         </h1>
         <p class="hero-desc">
-          IT and Data Analysis student crafting premium digital experiences at the intersection of technology, design, and entrepreneurship.
+          I create responsive web apps, intelligent UI systems, and immersive brand experiences using Java, Python, AI, and design-first development. My work blends creative storytelling with technical precision to help products feel premium, polished, and powerful.
         </p>
+        <div class="hero-hud">
+          <span>Frontend + UI/UX</span>
+          <span>Data + AI</span>
+          <span>Branding + Motion</span>
+        </div>
         <div class="hero-buttons">
           <a href="#work" class="btn btn-primary">Explore Work</a>
+          <a href="resume.pdf" class="btn btn-outline" target="_blank">View Resume</a>
+          <a href="resume.pdf" class="btn btn-outline" download>Download Resume</a>
           <a href="#contact" class="btn btn-outline">Contact</a>
         </div>
       </div>
@@ -2498,63 +2933,141 @@
       <p class="section-sub">Background, skills, and what drives the work — from code and GenAI to branding and fashion.</p>
       <div class="glass about-panel">
         <p class="hero-desc">
-          I'm an IT and Data Analysis student who builds at the intersection of technology, design, and entrepreneurship. My skill set spans Generative AI, frontend development, and data-driven problem solving. I work with C, Java, and Python at an intermediate level and use modern tools to create intelligent workflows, websites, and digital products. I also specialize in graphic design and UI/UX, focusing on clean, user-centered interfaces and strong visual identity.
+          I’m Rishit Verma, a multidisciplinary developer, designer, and AI creator passionate about building impactful digital experiences that combine technology, creativity, and innovation. Currently pursuing a Bachelor of Technology (B.Tech) in Information Technology & Data Analytics at MIT ADT University, I specialize in frontend development, UI/UX design, data analytics, generative AI, and digital media creation.
         </p>
         <p class="hero-desc">
-          Beyond tech, I run my own clothing brand where I explore branding, product design, and fashion culture. With a foundation in financial literacy, project management, and leadership, I focus on turning ideas into structured, scalable projects.
+          I enjoy transforming ideas into modern, responsive, and visually engaging products that deliver both functionality and premium user experience. My skill set spans frontend development, graphic design, programming, AI automation, and data analytics.
+        </p>
+        <p class="hero-desc">
+          I work with Java, Python, R, MySQL, and modern web development tools while also designing intuitive interfaces using Figma, Adobe Photoshop, Illustrator, and other creative platforms. Alongside development and design, I actively explore generative AI, AI filmmaking, VFX, motion graphics, and digital storytelling to create immersive and future-focused experiences.
+        </p>
+        <p class="hero-desc">
+          I’m also deeply interested in branding, music production, and creative technology, constantly experimenting with new ideas that merge aesthetics with engineering. Whether it’s building scalable web applications, designing engaging user interfaces, creating AI-powered workflows, or producing cinematic visuals, I focus on crafting work that feels meaningful, innovative, and visually refined.
+        </p>
+        <p class="hero-desc">
+          My goal is to continuously learn, evolve, and push creative and technical boundaries while building products and experiences that leave a lasting impact.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="product-section" id="experience">
-    <div class="product-sticky">
-      <canvas id="three-bg"></canvas>
-      <div class="product-overlay">
-        <div class="product-text" id="text1">
-          <h2>Minimal. Clean. Premium.</h2>
-          <p>Scroll-driven storytelling with smooth motion and luxury spacing — a portfolio that feels like a premium brand website.</p>
-        </div>
-        <div class="product-text" id="text2">
-          <h2>Graphics?</h2>
-          <p>Need a graphic designer with branding experience in a Gen-Z style? Let's create something unforgettable.</p>
-        </div>
-        <div class="product-text" id="text3">
-          <h2>AI Ready.</h2>
-          <p>Less trust in manpower — want someone with a mastered GenAI skillset? That's where I thrive.</p>
-        </div>
+  <section id="process" class="reveal" style="position:relative;">
+    <div class="section-num">02</div>
+    <h2 class="section-title">How I Work</h2>
+    <p class="section-sub">A polished workflow from strategy and design through development, AI, and launch.</p>
+    <div class="process-grid">
+      <div class="process-card glass">
+        <h3>Plan & Strategize</h3>
+        <p>Define project goals, user flow, and product direction so every solution is strategic and audience-focused.</p>
       </div>
+      <div class="process-card glass">
+        <h3>Design & Prototype</h3>
+        <p>Create premium interfaces, motion systems, and responsive visuals that look elegant and feel intuitive.</p>
+      </div>
+      <div class="process-card glass">
+        <h3>Build & Ship</h3>
+        <p>Develop with clean code, reusable components, and deployment-ready workflows for polished product delivery.</p>
+      </div>
+      <div class="process-card glass">
+        <h3>Measure & Improve</h3>
+        <p>Use data, feedback, and AI workflows to refine the experience and keep work aligned with real results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="reveal section-branch" style="position:relative;">
+    <div class="section-num">03</div>
+    <h2 class="section-title">Experience</h2>
+    <p class="section-sub">Job simulation certifications that showcase structured decision-making, industry thinking, and modern product execution.</p>
+    <div class="branch-lines" aria-hidden="true"></div>
+    <div class="experience-grid">
+      <article class="experience-card glass reveal">
+        <div class="experience-media"><img loading="lazy" src="media/jobsimulation/bririshairway job simulation.png" alt="British Airways Job Simulation certificate"></div>
+        <div class="experience-card-content">
+          <div class="project-badge">British Airways</div>
+          <h3>British Airways Job Simulation</h3>
+          <p>Completed a simulated airline operations briefing with customer experience strategy, service design, and travel product planning.</p>
+          <div class="experience-card-tags"><span>Customer Experience</span><span>Operations</span><span>Service Design</span></div>
+        </div>
+      </article>
+      <article class="experience-card glass reveal">
+        <div class="experience-media"><img loading="lazy" src="media/jobsimulation/deloittejs.png" alt="Deloitte Job Simulation certificate"></div>
+        <div class="experience-card-content">
+          <div class="project-badge">Deloitte</div>
+          <h3>Deloitte Job Simulation</h3>
+          <p>Delivered structured analysis and client-ready deliverables in a consulting-style simulation focused on data-driven recommendations.</p>
+          <div class="experience-card-tags"><span>Consulting</span><span>Data Analysis</span><span>Stakeholder Strategy</span></div>
+        </div>
+      </article>
+      <article class="experience-card glass reveal">
+        <div class="experience-media"><img loading="lazy" src="media/jobsimulation/EAjs.png" alt="EA Job Simulation certificate"></div>
+        <div class="experience-card-content">
+          <div class="project-badge">EA</div>
+          <h3>EA Job Simulation</h3>
+          <p>Worked through a gaming product and marketing scenario with creative thinking, audience insight, and polished presentation.</p>
+          <div class="experience-card-tags"><span>Product Concept</span><span>Creative Strategy</span><span>User Research</span></div>
+        </div>
+      </article>
+      <article class="experience-card glass reveal">
+        <div class="experience-media"><img loading="lazy" src="media/jobsimulation/llloydjs.png" alt="Lloyds Job Simulation certificate"></div>
+        <div class="experience-card-content">
+          <div class="project-badge">Lloyds</div>
+          <h3>Lloyds Job Simulation</h3>
+          <p>Completed a finance and banking scenario focused on risk assessment, digital customer experience, and operational clarity.</p>
+          <div class="experience-card-tags"><span>Financial Services</span><span>Risk Assessment</span><span>Customer Journey</span></div>
+        </div>
+      </article>
     </div>
   </section>
 
   <section id="work" class="reveal" style="position:relative;">
-    <div class="section-num">02</div>
+    <div class="section-num">04</div>
     <h2 class="section-title">Work</h2>
-    <p class="section-sub">Selected projects crafted with modern UI/UX, branding, and premium storytelling.</p>
+    <p class="section-sub">Selected GitHub projects and digital experiences designed for performance, polish, and clarity.</p>
     <div class="projects-grid">
       <div class="project glass">
-        <div class="project-badge">Featured</div>
-        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(176,139,87,0.34), rgba(255,255,255,0.95));"></div>
+        <div class="project-badge">Java Analytics</div>
+        <div class="project-img"><img loading="lazy" src="media/projectbanner/careerpulsebanner.png" alt="Data Pulse Java Analytics Suite banner"></div>
         <div class="project-content">
-          <div class="project-tags"><span>UI/UX</span><span>Motion</span><span>Brand</span></div>
-          <h3>Portfolio Website</h3>
-          <p>Luxury portfolio with Apple-style storytelling animations.</p>
-          <a href="https://rvx0098.github.io/portfolio/" target="_blank">View Live →</a>
+          <div class="project-tags"><span>Java</span><span>Analytics</span><span>Dashboard</span></div>
+          <h3>Data Pulse Java Analytics Suite</h3>
+          <p>Built a Java analytics platform with real-time metrics, reporting flows, and clear data visualization for decision-making.</p>
+          <a href="https://github.com/Rvx0098/data-pulse-java-analytics-suite" target="_blank">View Repository →</a>
+        </div>
+      </div>
+      <div class="project glass">
+        <div class="project-badge">Web App</div>
+        <div class="project-img" style="background:linear-gradient(135deg, rgba(61,133,198,0.30), rgba(255,255,255,0.92));"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Java</span><span>Spring</span><span>Web</span></div>
+          <h3>Coffee Shop Web</h3>
+          <p>Designed and developed a responsive coffee storefront with polished product layouts, menu interactions, and clean user flow.</p>
+          <a href="https://github.com/Rvx0098/coffee_shop-web" target="_blank">View Repository →</a>
+        </div>
+      </div>
+      <div class="project glass">
+        <div class="project-badge">Clone</div>
+        <div class="project-img"><img loading="lazy" src="media/projectbanner/footballiq banner.png" alt="Spotify Clone project banner"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>React</span><span>Audio</span><span>UI</span></div>
+          <h3>Spotify Clone</h3>
+          <p>Engineered a responsive music streaming prototype with playlist controls, audio UI elements, and polished visual interactions.</p>
+          <a href="https://github.com/Rvx0098/spotifyClone" target="_blank">View Repository →</a>
         </div>
       </div>
       <div class="project glass">
         <div class="project-badge">Launch</div>
-        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(61,133,198,0.30), rgba(255,255,255,0.92));"></div>
+        <div class="project-img" style="background:linear-gradient(135deg, rgba(61,133,198,0.30), rgba(255,255,255,0.92));"></div>
         <div class="project-content">
           <div class="project-tags"><span>Fashion</span><span>Visual</span><span>Web</span></div>
           <h3>ELIXR Brand Website</h3>
-          <p>Premium fashion brand concept with bold aesthetics.</p>
+          <p>Designed a premium brand experience focused on polished visuals, bold typography, and immersive lifestyle storytelling.</p>
           <a href="https://rvx0098.github.io/ELIXER/" target="_blank">View Live →</a>
         </div>
       </div>
       <div class="project glass">
         <div class="project-badge">Concept Deck</div>
-        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(44,44,44,0.50), rgba(176,139,87,0.28));"></div>
+        <div class="project-img" style="background:linear-gradient(135deg, rgba(44,44,44,0.50), rgba(176,139,87,0.28));"></div>
         <div class="project-content">
           <div class="project-tags"><span>Streetwear</span><span>Identity</span><span>Graphics</span></div>
           <h3>GRX Streetwear Branding</h3>
@@ -2564,11 +3077,11 @@
       </div>
       <div class="project glass">
         <div class="project-badge">Data Analysis</div>
-        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(48,105,209,0.32), rgba(255,255,255,0.92));"></div>
+        <div class="project-img"><img loading="lazy" src="media/projectbanner/footballiq banner.png" alt="FootballIQ project banner"></div>
         <div class="project-content">
           <div class="project-tags"><span>Data</span><span>Analytics</span><span>Football</span></div>
           <h3>FootballIQ</h3>
-          <p>Analysed football match metrics and performance trends with Python to reveal actionable insights.</p>
+          <p>Created a Python analytics toolkit for football performance, highlighting trends, metrics, and actionable insights.</p>
           <a href="https://github.com/Rvx0098/footballiq" target="_blank">View GitHub →</a>
         </div>
       </div>
@@ -2576,7 +3089,7 @@
   </section>
 
   <section id="skills" class="reveal" style="position:relative;">
-    <div class="section-num">03</div>
+    <div class="section-num">05</div>
     <h2 class="section-title">Skills</h2>
     <p class="section-sub">Design, code, data, motion, and sound — from UI and AI workflows to analytics, VFX, film, graphics, and music.</p>
     <div class="projects-grid">
@@ -2592,8 +3105,35 @@
     </div>
   </section>
 
+  <section id="education" class="reveal section-branch" style="position:relative;">
+    <div class="section-num">06</div>
+    <h2 class="section-title">Education</h2>
+    <p class="section-sub">Academic milestones and technical learning mapped with a clean, modern node layout.</p>
+    <div class="education-grid">
+      <div class="education-node glass">
+        <span class="node-title">B.Tech in Information Technology & Data Analytics</span>
+        <p>I am currently pursuing a Bachelor of Technology (B.Tech) in Information Technology & Data Analytics at MIT ADT University, developing strong expertise in software development, data analytics, AI technologies, and modern digital systems while working on real-world projects and creative digital experiences.</p>
+      </div>
+      <div class="education-node glass">
+        <span class="node-title">Satpuda Valley Public School</span>
+        <p>Completed high school with a focus on Theoretical and Mathematical Physics, strengthening analytical thinking, logical reasoning, and problem-solving abilities while discovering a passion for technology, design, and digital creativity.</p>
+      </div>
+      <div class="education-node glass">
+        <span class="node-title">Sagar Public School</span>
+        <p>Finished secondary education with early development in computers, innovation, creativity, and communication. These experiences shaped my multidisciplinary approach toward technology, design, AI, and digital media.</p>
+      </div>
+    </div>
+    <div class="education-tree" aria-hidden="true">
+      <div class="tree-node tree-root"></div>
+      <div class="tree-node tree-left"></div>
+      <div class="tree-node tree-right"></div>
+      <div class="tree-branch branch-left"></div>
+      <div class="tree-branch branch-right"></div>
+    </div>
+  </section>
+
   <section id="certifications" class="reveal" style="position:relative;">
-    <div class="section-num">04</div>
+    <div class="section-num">07</div>
     <h2 class="section-title">Certifications</h2>
     <p class="section-sub">Verified learning milestones that strengthen my design and development expertise.</p>
     <p class="cert-hero-summary">These certificates showcase the full range of my technical and creative training—from AI, UX, and development to systems, data, and networking. Each hero card is designed to highlight a complete skill milestone with the actual credential image.</p>
@@ -2625,6 +3165,16 @@
           <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
           <h3>Web Development Certification</h3>
           <p>Verified skills in frontend development, responsive layouts, JavaScript behavior, and modern deployments.</p>
+          <a href="#">View Credential →</a>
+        </div>
+      </div>
+      <div class="project glass project--genz-cert">
+        <div class="project-badge">Python</div>
+        <div class="cert-image cert-image--genz"><img src="media/MASTER%20PYTHON.png" alt="Master Python Certification"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Python</span><span>Scripting</span><span>Automation</span></div>
+          <h3>Master Python Certification</h3>
+          <p>Advanced Python training with automation workflows, data processing, and clean code fundamentals.</p>
           <a href="#">View Credential →</a>
         </div>
       </div>
@@ -2709,10 +3259,10 @@
           Want a premium website, UI/UX design, or branding?<br>
           Let's collaborate and build something elite.
         </p>
-        <a href="mailto:rv9207398@gmail.com" class="btn btn-outline" style="-webkit-text-fill-color:inherit;color:inherit;">
-          rishitvermapersonall@outlook.com
+        <a href="mailto:rishitvermaformall@outlook.com" class="btn btn-primary" style="padding:18px 34px;">
+          Say hello → rishitvermaformall@outlook.com
         </a>
-        <div class="social-links">
+        <div class="social-links" style="margin-top:24px;">
           <a href="https://github.com/rvx0098" target="_blank" class="social-icon" aria-label="GitHub">
             <svg viewBox="0 0 24 24"><path d="M12 .5A12 12 0 0 0 8.21 23.9c.6.1.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.72.08-.72 1.2.09 1.84 1.23 1.84 1.23 1.07 1.84 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.94 0-1.32.47-2.4 1.23-3.24-.12-.3-.53-1.53.12-3.2 0 0 1.01-.32 3.3 1.24a11.43 11.43 0 0 1 6 0c2.29-1.56 3.3-1.24 3.3-1.24.65 1.67.24 2.9.12 3.2.77.84 1.23 1.92 1.23 3.24 0 4.61-2.8 5.64-5.48 5.94.43.37.81 1.1.81 2.23v3.3c0 .32.21.69.82.58A12 12 0 0 0 12 .5Z"/></svg>
           </a>
@@ -2726,6 +3276,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <footer>© 2026 RISHIT VERMA • PREMIUM PORTFOLIO EXPERIENCE</footer>
 
@@ -2788,18 +3339,21 @@
     // CUSTOM CURSOR - disable on mobile
     const dot = document.getElementById("cursorDot");
     const ring = document.getElementById("cursorRing");
+    const spotlight = document.getElementById("spotlight");
     let mx = 0, my = 0, rx = 0, ry = 0;
-    
+
     if (!isMobile()) {
       window.addEventListener("mousemove", (e) => {
-        mx = e.clientX; 
+        mx = e.clientX;
         my = e.clientY;
-        dot.style.left = mx + "px"; 
+        dot.style.left = mx + "px";
         dot.style.top = my + "px";
-        spotlight.style.setProperty("--x", mx + "px");
-        spotlight.style.setProperty("--y", my + "px");
+        if (spotlight) {
+          spotlight.style.setProperty("--x", mx + "px");
+          spotlight.style.setProperty("--y", my + "px");
+        }
       });
-      
+
       function animateRing() {
         rx += (mx - rx) * 0.13;
         ry += (my - ry) * 0.13;
@@ -3391,7 +3945,7 @@
     window.addEventListener("scroll",()=>{
       if(window.scrollY>80) scrollHint.classList.add("hidden");
       else scrollHint.classList.remove("hidden");
-    });
+    }, {passive:true});
 
     // CHAT
     const chatBtn=document.getElementById("chatBtn");
@@ -3435,9 +3989,6 @@
       if(e.key==="Escape"){closeCert();pptModal.classList.remove("active");pptIframe.src="";document.body.style.overflow="";}
     });
 
-    // SPOTLIGHT (already handled in cursor section)
-    const spotlight=document.getElementById("spotlight");
-
     // NAV + PROGRESS + DARK MODE
     const nav=document.getElementById("nav");
     const progress=document.getElementById("progress");
@@ -3466,7 +4017,7 @@
       progress.style.width=(window.scrollY/docH*100)+"%";
       updateDarkMode();
       updateProfileFade();
-    });
+    }, {passive:true});
     updateProfileFade();
     window.addEventListener("resize",updateProfileFade);
 
@@ -3477,25 +4028,18 @@
     document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
     // TEXT SWITCHING
-    const text1=document.getElementById("text1");
-    const text2=document.getElementById("text2");
-    const text3=document.getElementById("text3");
-    function updateText(p){
-      [text1,text2,text3].forEach(t=>t.classList.remove("active"));
-      if(p<0.33)text1.classList.add("active");
-      else if(p<0.66)text2.classList.add("active");
-      else text3.classList.add("active");
-    }
+    function updateText(p){ }
 
     // THREE.JS
     const canvas=document.getElementById("three-bg");
-    const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,2000);
-    camera.position.set(0,0,12);
-    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-    renderer.setSize(window.innerWidth,window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled=true;
+    if(canvas){
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,2000);
+      camera.position.set(0,0,12);
+      const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer.setSize(window.innerWidth,window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+      renderer.shadowMap.enabled=true;
 
     // LIGHTS
     scene.add(new THREE.AmbientLight(0xffffff,1.0));
@@ -3599,9 +4143,9 @@
       const geo=new THREE.TorusKnotGeometry(0.85+Math.random()*0.55,0.05+Math.random()*0.06,42,6,2+Math.floor(Math.random()*4),3+Math.floor(Math.random()*4));
       const mat=new THREE.MeshBasicMaterial({
         color:chaosCols[i%chaosCols.length],
-        wireframe:true,
         transparent:true,
-        opacity:0.26+Math.random()*0.12
+        opacity:0.14+Math.random()*0.06,
+        blending:THREE.AdditiveBlending
       });
       const m=new THREE.Mesh(geo,mat);
       m.userData.phase=i*1.17;
@@ -3684,6 +4228,7 @@
       renderer.render(scene,camera);
     }
     animate();
+    }
 
     /* GEN Z — full-viewport WebGL (neon knots + shards) */
     const genzCanvas=document.getElementById("genz-canvas");
@@ -3701,9 +4246,9 @@
         const geo=new THREE.TorusKnotGeometry(2+Math.random()*1.2,0.07+Math.random()*0.06,88,10,2+(i%4),3+(i%3));
         const mat=new THREE.MeshBasicMaterial({
           color:neon[i%neon.length],
-          wireframe:true,
           transparent:true,
-          opacity:0.14+Math.random()*0.1
+          opacity:0.08+Math.random()*0.05,
+          blending:THREE.AdditiveBlending
         });
         const mesh=new THREE.Mesh(geo,mat);
         mesh.userData={ax:Math.random()*2-1,ay:Math.random()*2-1,sp:0.75+Math.random()*0.9,idx:i};
@@ -3714,9 +4259,9 @@
       for(let j=0;j<55;j++){
         const sm=new THREE.Mesh(shardGeo,new THREE.MeshBasicMaterial({
           color:neon[j%neon.length],
-          wireframe:true,
           transparent:true,
-          opacity:0.06+Math.random()*0.08
+          opacity:0.04+Math.random()*0.04,
+          blending:THREE.AdditiveBlending
         }));
         const bx=(Math.random()-0.5)*42;
         const by=(Math.random()-0.5)*28;
