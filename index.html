@@ -90,66 +90,6 @@
       background-size:180px 180px;
     }
 
-    /* LOADER */
-    .loader{
-      position:fixed;
-      inset:0;
-      background:linear-gradient(160deg, #f8f5ef, #e8e0d0);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      z-index:999999;
-      transition:opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.2s cubic-bezier(.4,0,.2,1);
-    }
-    .loader.hidden{
-      opacity:0;
-      pointer-events:none;
-      transform:scale(1.04);
-    }
-    .loader-title{
-      font-family:var(--fontDisplay);
-      font-size:3.4rem;
-      font-weight:800;
-      margin-bottom:10px;
-      letter-spacing:-0.04em;
-      background: linear-gradient(135deg, #0c0c0c 30%, var(--accent) 60%, #0c0c0c 90%);
-      background-size:200% auto;
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      animation:shimmerText 2.2s linear infinite;
-    }
-    @keyframes shimmerText {
-      from { background-position:200% center; }
-      to   { background-position:0% center; }
-    }
-    .loader-sub{
-      font-weight:700;
-      color:rgba(0,0,0,0.45);
-      letter-spacing:0.32em;
-      text-transform:uppercase;
-      font-size:0.72rem;
-      margin-bottom:36px;
-    }
-    .loader-bar{
-      width:280px;
-      height:3px;
-      border-radius:999px;
-      background:rgba(0,0,0,0.07);
-      overflow:hidden;
-      position:relative;
-    }
-    .loader-bar span{
-      display:block;
-      width:0%;
-      height:100%;
-      background:linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2), #0c0c0c);
-      border-radius:999px;
-      animation:loadbar 2.6s cubic-bezier(.4,0,.2,1) forwards;
-    }
-    @keyframes loadbar{ from{width:0%} to{width:100%} }
-
     /* VIDEO BG */
     .bg-video{
       position:fixed;
@@ -761,13 +701,28 @@
       max-width:800px;
       text-align:center;
       opacity:0;
+      visibility:hidden;
       transform:translateY(60px) scale(0.97);
       transition:0.9s cubic-bezier(.2,.8,.2,1);
       position:absolute;
     }
     .product-text.active{
       opacity:1;
+      visibility:visible;
       transform:translateY(0px) scale(1);
+    }
+    .company-logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
+    }
+    .company-logo img{
+      width:42px;
+      height:auto;
+      border-radius:12px;
+      object-fit:cover;
+      box-shadow:0 8px 18px rgba(0,0,0,0.12);
     }
     .product-text h2{
       font-family:var(--fontDisplay);
@@ -2389,6 +2344,43 @@
       .culture-vfx--about .cvfx-hh-block--2{ opacity:0.65; }
       .culture-vfx--contact .cvfx-vinyl{ opacity:0.4; }
     }
+    @media (max-width: 980px) {
+      body{font-size:15px;}
+      .projects-grid{grid-template-columns:1fr;gap:22px;}
+      .glass{padding:28px 24px;}
+      .section-title{font-size:2.4rem;}
+      .section-sub{font-size:0.95rem;max-width:100%;}
+      .project-img{min-height:200px;}
+      .product-sticky{position:relative;height:auto;}
+      .product-overlay{padding:160px 24px 80px;}
+      #three-bg{height:420px;}
+      #genz-canvas{display:none!important;}
+      .culture-content{padding:24px 20px;}
+      .contact-glass-vfx{padding:56px 24px !important;}
+      .social-links{justify-content:center;}
+      .chat-btn{bottom:18px;right:18px;}
+    }
+    @media (max-width: 680px) {
+      html{font-size:14px;}
+      .hero-title--genz{font-size:2.4rem;}
+      .section-num{font-size:0.78rem;}
+      .product-overlay{padding:140px 18px 60px;}
+      .project-img{min-height:180px;}
+      .section-title{font-size:2rem;}
+      .section-sub{font-size:0.88rem;}
+      .project-content{padding:18px;}
+      .project-tags span{font-size:0.72rem;}
+      .glass{padding:22px 18px;}
+      .culture-3d-canvas{display:none!important;}
+      body{cursor:auto;}
+      .cursor-dot,.cursor-ring{display:none!important;}
+      body::before{opacity:0.01;}
+    }
+    @media (hover: none), (pointer: coarse) {
+      body{cursor:auto;}
+      .cursor-dot,.cursor-ring{display:none!important;}
+      body::before{opacity:0.02;}
+    }
   </style>
 </head>
 
@@ -2396,12 +2388,6 @@
 
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
-
-  <div class="loader" id="loader">
-    <div class="loader-title">Rishit<span style="-webkit-text-fill-color:var(--accent);color:var(--accent);filter:drop-shadow(0 0 16px rgba(176,139,87,0.6));">.</span></div>
-    <div class="loader-sub">PREMIUM EXPERIENCE</div>
-    <div class="loader-bar"><span></span></div>
-  </div>
 
   <div class="bg-video">
     <video autoplay muted loop playsinline>
@@ -2498,39 +2484,125 @@
       <p class="section-sub">Background, skills, and what drives the work — from code and GenAI to branding and fashion.</p>
       <div class="glass about-panel">
         <p class="hero-desc">
-          I'm an IT and Data Analysis student who builds at the intersection of technology, design, and entrepreneurship. My skill set spans Generative AI, frontend development, and data-driven problem solving. I work with C, Java, and Python at an intermediate level and use modern tools to create intelligent workflows, websites, and digital products. I also specialize in graphic design and UI/UX, focusing on clean, user-centered interfaces and strong visual identity.
+          I am a multidisciplinary technology enthusiast and an aspiring Data Analyst, Business Analyst, FinTech Analyst, and Software Engineer. I combine data, automation, AI, and design to build production-ready analytics, web applications, and product experiences that solve real business problems. Currently pursuing my undergraduate studies, I focus on practical projects that bridge business strategy, analytics, and technical delivery.
         </p>
         <p class="hero-desc">
-          Beyond tech, I run my own clothing brand where I explore branding, product design, and fashion culture. With a foundation in financial literacy, project management, and leadership, I focus on turning ideas into structured, scalable projects.
+          Expertise: Data Analytics & Business Intelligence, Financial & FinTech analysis, Predictive analytics, Dashboard and BI development, ETL and data pipelines, Python (NumPy, Pandas), SQL (Postgres, MySQL, MSSQL), Flask & Django, visualization (Matplotlib, Plotly), Power BI & Excel, automation (n8n), and generative AI workflows.
+        </p>
+        <p class="hero-desc">
+          Current focus: Advanced data analytics, BI & reporting, financial analytics and trading, machine learning fundamentals, AI agents & automation, full-stack development, and product design. I enjoy turning complex data into clear insights, building efficient systems, and designing user-centred experiences that scale.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="product-section" id="experience">
+  <section class="product-section reveal" id="experience" style="position:relative;">
     <div class="product-sticky">
       <canvas id="three-bg"></canvas>
       <div class="product-overlay">
-        <div class="product-text" id="text1">
-          <h2>Minimal. Clean. Premium.</h2>
-          <p>Scroll-driven storytelling with smooth motion and luxury spacing — a portfolio that feels like a premium brand website.</p>
+        <div class="product-text active" id="text1">
+          <h2>Experience built for business impact.</h2>
+          <p>Structured leadership simulations and internship delivery work that proves analytical thinking, process ownership, and client-focused execution.</p>
         </div>
         <div class="product-text" id="text2">
-          <h2>Graphics?</h2>
-          <p>Need a graphic designer with branding experience in a Gen-Z style? Let's create something unforgettable.</p>
+          <h2>Job Simulations.</h2>
+          <p>Advanced business scenarios developed in collaboration with global organizations to sharpen stakeholder strategy, operations, and analytics.</p>
         </div>
         <div class="product-text" id="text3">
-          <h2>AI Ready.</h2>
-          <p>Less trust in manpower — want someone with a mastered GenAI skillset? That's where I thrive.</p>
+          <h2>Internship projects.</h2>
+          <p>Direct contributions to real data initiatives, reporting systems, and product-ready insight work that support decision making.</p>
+        </div>
+      </div>
+    </div>
+    <div class="experience-panel glass" style="padding:48px 42px; max-width:1260px; margin:0 auto;">
+      <div style="display:flex; flex-wrap:wrap; gap:18px; align-items:flex-start; margin-bottom:36px;">
+        <div style="flex:1 1 320px; min-width:280px;">
+          <div class="section-num">02</div>
+          <h2 class="section-title">Experience</h2>
+          <p class="section-sub">A curated collection of professional simulations, internships, and internship project work designed to demonstrate strategic, analytical, and delivery-focused capabilities.</p>
+        </div>
+        <div style="flex:1 1 360px; min-width:280px;">
+          <h3 style="margin-bottom:14px;">What this section covers</h3>
+          <ul style="list-style:none; padding:0; margin:0; color:var(--muted); font-size:0.95rem; line-height:1.8;">
+            <li>• Professional business simulations with leading brands.</li>
+            <li>• Data analytics internships with Power BI, Excel, R and SQL.</li>
+            <li>• GitHub-hosted internship project deliverables and portfolio work.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-bottom:40px;">
+        <h3 style="font-size:1.8rem; margin-bottom:12px;">Job Simulation Achievements</h3>
+        <p style="max-width:760px; color:var(--muted); margin-bottom:24px;">Completed intensive, scenario-based simulations from top companies that require business problem solving, communication, operations, and data-backed recommendations.</p>
+        <div class="projects-grid">
+          <div class="project glass">
+            <div class="project-badge">British Airways</div>
+            <div class="project-content">
+              <div class="project-tags"><span>Aviation</span><span>Operations</span><span>Strategy</span></div>
+              <h3>British Airways Job Simulation</h3>
+              <p>Led cross-functional process reviews and stakeholder analysis, driving airline operations efficiency through structured decision making.</p>
+              <a href="#" class="view-cert" data-cert-src="media/jobsimulation/bririshairway job simulation.png">View Certificate →</a>
+            </div>
+          </div>
+          <div class="project glass">
+            <div class="project-badge">Deloitte</div>
+            <div class="project-content">
+              <div class="project-tags"><span>Consulting</span><span>Analytics</span><span>Client</span></div>
+              <h3>Deloitte Job Simulation</h3>
+              <p>Delivered consulting-focused recommendations by analysing business data, preparing structured presentations, and aligning with client requirements.</p>
+              <a href="#" class="view-cert" data-cert-src="media/jobsimulation/deloittejs.png">View Certificate →</a>
+            </div>
+          </div>
+          <div class="project glass">
+            <div class="project-badge">EA</div>
+            <div class="project-content">
+              <div class="project-tags"><span>Product</span><span>Gaming</span><span>Research</span></div>
+              <h3>EA Job Simulation</h3>
+              <p>Engaged with product development scenarios, market positioning, and team collaboration to assess creative operations and strategic planning.</p>
+              <a href="#" class="view-cert" data-cert-src="media/jobsimulation/EAjs.png">View Certificate →</a>
+            </div>
+          </div>
+          <div class="project glass">
+            <div class="project-badge">Lloyds</div>
+            <div class="project-content">
+              <div class="project-tags"><span>Banking</span><span>Compliance</span><span>Data</span></div>
+              <h3>Lloyds Job Simulation</h3>
+              <p>Focused on customer journeys, compliance workflows, and risk-aware analytics while navigating a finance-sector business challenge.</p>
+              <a href="#" class="view-cert" data-cert-src="media/jobsimulation/llloydjs.png">View Certificate →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h3 style="font-size:1.8rem; margin-bottom:12px;">Internship Experience</h3>
+        <p style="max-width:760px; color:var(--muted); margin-bottom:24px;">Two internships with a clear focus on analytics delivery, dashboard automation, and data-driven business insight.</p>
+      </div>
+      <div class="projects-grid">
+        <div class="project glass">
+          <div class="project-badge">SkillInfyTech</div>
+          <div class="project-content">
+            <div class="project-tags"><span>Power BI</span><span>Excel</span><span>R</span></div>
+            <h3>Data Analyst Internship</h3>
+            <p>Designed interactive Power BI dashboards, automated Excel reporting, and used R with SQL data to surface performance insights for business teams.</p>
+          </div>
+        </div>
+        <div class="project glass">
+          <div class="project-badge">Bluestock.in</div>
+          <div class="project-content">
+            <div class="project-tags"><span>Data Science</span><span>Modeling</span><span>Insights</span></div>
+            <h3>Data Science Internship</h3>
+            <p>Executed exploratory data analysis, feature research, and predictive modeling to support product and marketing decisions with measurable results.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <section id="work" class="reveal" style="position:relative;">
-    <div class="section-num">02</div>
+    <div class="section-num">03</div>
     <h2 class="section-title">Work</h2>
-    <p class="section-sub">Selected projects crafted with modern UI/UX, branding, and premium storytelling.</p>
+    <p class="section-sub">Selected dashboard, analytics, and brand work crafted with modern UI/UX, data storytelling, and premium detail.</p>
     <div class="projects-grid">
       <div class="project glass">
         <div class="project-badge">Featured</div>
@@ -2572,31 +2644,77 @@
           <a href="https://github.com/Rvx0098/footballiq" target="_blank">View GitHub →</a>
         </div>
       </div>
+      <div class="project glass">
+        <div class="project-badge">Analytics</div>
+        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(24,120,190,0.30), rgba(255,255,255,0.92));"></div>
+        <div class="project-content">
+          <div class="company-logo"><img src="media/powerbi.png" alt="Sales Dashboard Logo"></div>
+          <div class="project-tags"><span>Power BI</span><span>Sales</span><span>Dashboard</span></div>
+          <h3>Sales Dashboard</h3>
+          <p>Created interactive sales performance analytics with KPIs, segmentation, and automated review-ready dashboards.</p>
+          <a href="https://github.com/Rvx0098/sales-dashboard" target="_blank">View GitHub →</a>
+        </div>
+      </div>
+      <div class="project glass">
+        <div class="project-badge">Finance</div>
+        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(72,132,211,0.30), rgba(255,255,255,0.92));"></div>
+        <div class="project-content">
+          <div class="company-logo"><img src="media/sql.png" alt="Stocks Trend Logo"></div>
+          <div class="project-tags"><span>Stock Market</span><span>Trends</span><span>Visualization</span></div>
+          <h3>Stocks Trend Dashboard</h3>
+          <p>Built market trend reporting dashboards that highlight momentum, volume, and investment-ready signal analysis.</p>
+          <a href="https://github.com/Rvx0098/stocks-trend-dashboard" target="_blank">View GitHub →</a>
+        </div>
+      </div>
+      <div class="project glass">
+        <div class="project-badge">Research</div>
+        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(96,105,215,0.28), rgba(255,255,255,0.92));"></div>
+        <div class="project-content">
+          <div class="company-logo"><img src="media/sql.png" alt="APPL Stock EDA Logo"></div>
+          <div class="project-tags"><span>APPL</span><span>EDA</span><span>Python</span></div>
+          <h3>APPL Stock EDA</h3>
+          <p>Delivered exploratory analysis on Apple stock data using Python and financial modelling to uncover patterns and predictive signals.</p>
+          <a href="https://github.com/Rvx0098/appl-stock-eda" target="_blank">View GitHub →</a>
+        </div>
+      </div>
+      <div class="project glass">
+        <div class="project-badge">Upcoming</div>
+        <div class="project-img" style="--card-bg:linear-gradient(135deg, rgba(177,139,87,0.25), rgba(255,255,255,0.90));"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>More</span><span>Coming</span><span>Soon</span></div>
+          <h3>More Projects Coming Soon</h3>
+          <p>Additional work samples will be added as the new project list is finalized.</p>
+          <a href="#" target="_blank">Stay Tuned →</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="skills" class="reveal" style="position:relative;">
-    <div class="section-num">03</div>
+    <div class="section-num">04</div>
     <h2 class="section-title">Skills</h2>
     <p class="section-sub">Design, code, data, motion, and sound — from UI and AI workflows to analytics, VFX, film, graphics, and music.</p>
     <div class="projects-grid">
-      <div class="project glass"><div class="project-content"><h3>UI/UX Design</h3><p>Figma, wireframing, prototyping, layout systems, and clean modern UI design.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>Frontend Development</h3><p>HTML, CSS, JavaScript, responsive design, and premium animations.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>Branding</h3><p>Logo design, typography, brand identity, streetwear aesthetics, and moodboards.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>AI & Workflow</h3><p>Prompt engineering, AI tools, Canva, GitHub workflow, fast creative prototyping.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>Data Analytics</h3><p>Exploring and visualizing data — spreadsheets to Python, metrics, trends, and clear stories behind the numbers.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>VFX & Motion</h3><p>Motion graphics, compositing, and stylized effects for promos, social cuts, and branded visual punch.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>AI Filmmaking</h3><p>Short-form and concept video using generative AI — ideation, story beats, visuals, and fast iteration from prompt to frame.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>Graphic Design</h3><p>Typography, layout, campaign assets, social graphics, and print-ready work aligned with brand systems.</p></div></div>
-      <div class="project glass"><div class="project-content"><h3>Music Production</h3><p>Beats, arrangement, and mix basics for demos, content soundtracks, and sonic identity that matches the visual vibe.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Business Analytics</h3><p>Power BI, Excel, pivot reporting, KPIs, and insight delivery for business performance and decision making.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Fintech Analysis</h3><p>Market analysis, financial datasets, risk insights, and products built for finance and trading workflows.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Trade Prediction</h3><p>Time series modeling, predictive features, and algorithmic thinking for stock movement and trading signal work.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Databases & SQL</h3><p>PostgreSQL, MySQL, MSSQL, query performance, and database design for analytics and production systems.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Python Data Stack</h3><p>Python, NumPy, Pandas, data pipelines, and exploration for clean analytics and machine learning preparation.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Web & Backend</h3><p>Flask, Django, Java, DSA, REST, APIs, integration logic, and backend services for data-rich applications.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Visualization</h3><p>Matplotlib, Plotly, dashboards, charts, and visual storytelling for data-driven presentations.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Generative AI</h3><p>Prompt design, content generation, automation workflows, and intelligent creative systems.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Automation</h3><p>n8n workflow automation, connectors, and process optimization for smarter task execution.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Product Tools</h3><p>Notion, Gumroad, product launches, documentation systems, and digital commerce support.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>UI/UX Design</h3><p>Figma, wireframes, prototyping, responsive interfaces, and user-centered design systems.</p></div></div>
+      <div class="project glass"><div class="project-content"><h3>Frontend Development</h3><p>HTML, CSS, JavaScript, responsive layouts, and modern interactive experiences.</p></div></div>
     </div>
   </section>
 
   <section id="certifications" class="reveal" style="position:relative;">
-    <div class="section-num">04</div>
+    <div class="section-num">05</div>
     <h2 class="section-title">Certifications</h2>
-    <p class="section-sub">Verified learning milestones that strengthen my design and development expertise.</p>
-    <p class="cert-hero-summary">These certificates showcase the full range of my technical and creative training—from AI, UX, and development to systems, data, and networking. Each hero card is designed to highlight a complete skill milestone with the actual credential image.</p>
+    <p class="section-sub">Verified learning milestones that strengthen my analytics, automation, and product development expertise.</p>
+    <p class="cert-hero-summary">These certificates showcase the full range of my technical and creative training—from AI, UX, and development to analytics, workflow automation, and systems. Each hero card highlights a complete credential with its actual certification image.</p>
     <div class="projects-grid">
       <div class="project glass project--genz-cert">
         <div class="project-badge">Gen AI</div>
@@ -2669,7 +2787,37 @@
         </div>
       </div>
       <div class="project glass project--genz-cert">
-        <div class="project-badge">Networking</div>
+        <div class="project-badge">BI</div>
+        <div class="cert-image cert-image--genz"><img src="media/powerbi.png" alt="Power BI Certification"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Power BI</span><span>Dashboards</span><span>Analytics</span></div>
+          <h3>Power BI Certification</h3>
+          <p>Verified training in business intelligence dashboards, reporting, and interactive data visualization.</p>
+          <a href="#">View Credential →</a>
+        </div>
+      </div>
+      <div class="project glass project--genz-cert">
+        <div class="project-badge">Excel</div>
+        <div class="cert-image cert-image--genz"><img src="media/pivot excel.png" alt="Excel Pivot Tables Certification"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Excel</span><span>Pivots</span><span>Reporting</span></div>
+          <h3>MS Excel & Pivot Tables</h3>
+          <p>Certified in Excel analytics, pivot tables, lookup formulas, and business reporting workflows.</p>
+          <a href="#">View Credential →</a>
+        </div>
+      </div>
+      <div class="project glass project--genz-cert">
+        <div class="project-badge">Python</div>
+        <div class="cert-image cert-image--genz"><img src="media/MASTER PYTHON.png" alt="Advance Python Certification"></div>
+        <div class="project-content">
+          <div class="project-tags"><span>Python</span><span>NumPy</span><span>Pandas</span></div>
+          <h3>Advanced Python</h3>
+          <p>Verified training in Python with hands-on NumPy, Pandas, Matplotlib, and Plotly analysis.</p>
+          <a href="#">View Credential →</a>
+        </div>
+      </div>
+      <div class="project glass project--genz-cert">
+        <div class="project-badge">Cloud</div>
         <div class="cert-image cert-image--genz"><img src="media/cn.png" alt="Cloud and Networking Certification"></div>
         <div class="project-content">
           <div class="project-tags"><span>Cloud</span><span>Networking</span><span>IT</span></div>
@@ -2678,17 +2826,8 @@
           <a href="#">View Credential →</a>
         </div>
       </div>
-        <div class="project glass project--genz-cert">
-        <div class="project-badge">Networking</div>
-        <div class="cert-image cert-image--genz"><img src="media/MASTER PYTHON.png" alt="Advance python Certification"></div>
-        <div class="project-content">
-          <div class="project-tags"><span>Python</span><span>Python LIb</span><span>IT</span></div>
-          <h3>Advance python</h3>
-          <p>Verified training in Python, Hands on Numpy,Pandas,Matplot,plotly.</p>
-          <a href="#">View Credential →</a>
-        </div>
-      </div>
     </div>
+
   </section>
 
   <section id="contact" class="reveal section-culture-contact" style="position:relative;">
@@ -2709,8 +2848,8 @@
           Want a premium website, UI/UX design, or branding?<br>
           Let's collaborate and build something elite.
         </p>
-        <a href="mailto:rv9207398@gmail.com" class="btn btn-outline" style="-webkit-text-fill-color:inherit;color:inherit;">
-          rishitvermapersonall@outlook.com
+        <a href="mailto:rishitvermaformall@outlook.com" class="btn btn-outline" style="-webkit-text-fill-color:inherit;color:inherit;">
+          rishitvermaformall@outlook.com
         </a>
         <div class="social-links">
           <a href="https://github.com/rvx0098" target="_blank" class="social-icon" aria-label="GitHub">
@@ -2788,6 +2927,7 @@
     // CUSTOM CURSOR - disable on mobile
     const dot = document.getElementById("cursorDot");
     const ring = document.getElementById("cursorRing");
+    const spotlight = document.getElementById("spotlight");
     let mx = 0, my = 0, rx = 0, ry = 0;
     
     if (!isMobile()) {
@@ -2796,8 +2936,10 @@
         my = e.clientY;
         dot.style.left = mx + "px"; 
         dot.style.top = my + "px";
-        spotlight.style.setProperty("--x", mx + "px");
-        spotlight.style.setProperty("--y", my + "px");
+        if (spotlight) {
+          spotlight.style.setProperty("--x", mx + "px");
+          spotlight.style.setProperty("--y", my + "px");
+        }
       });
       
       function animateRing() {
@@ -2809,12 +2951,6 @@
       }
       animateRing();
     }
-
-    // LOADER
-    const loader = document.getElementById("loader");
-    function hideLoader() { loader.classList.add("hidden"); }
-    setTimeout(hideLoader, 3500);
-    window.addEventListener("load", () => setTimeout(hideLoader, 900));
 
     // SCROLL HINT
     const scrollHint = document.getElementById("scrollHint");
@@ -2855,6 +2991,16 @@
     certClose.addEventListener("click", closeCert);
     certModal.addEventListener("click", e => { if (e.target === certModal) closeCert(); });
 
+    // JOB SIMULATIONS: view certificates from experience cards
+    document.querySelectorAll(".view-cert").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const src = link.getAttribute("data-cert-src");
+        const alt = link.getAttribute("data-cert-alt") || "Job Simulation Certificate";
+        if (src) openCert(src, alt);
+      });
+    });
+
     // PPT MODAL
     const pptModal = document.getElementById("pptModal");
     const pptIframe = document.getElementById("pptIframe");
@@ -2867,7 +3013,6 @@
     });
 
     // SPOTLIGHT (already handled in cursor section)
-    const spotlight = document.getElementById("spotlight");
 
     // NAV + PROGRESS + DARK MODE
     const nav = document.getElementById("nav");
@@ -3375,564 +3520,6 @@
         genzCam.aspect = window.innerWidth / window.innerHeight;
         genzCam.updateProjectionMatrix();
         genzRenderer.setSize(window.innerWidth, window.innerHeight);
-      }
-      resizeCulture3D();
-    });
-  </script>
-
-    // LOADER
-    const loader=document.getElementById("loader");
-    function hideLoader(){ loader.classList.add("hidden"); }
-    setTimeout(hideLoader,3500);
-    window.addEventListener("load",()=>setTimeout(hideLoader,900));
-
-    // SCROLL HINT
-    const scrollHint=document.getElementById("scrollHint");
-    window.addEventListener("scroll",()=>{
-      if(window.scrollY>80) scrollHint.classList.add("hidden");
-      else scrollHint.classList.remove("hidden");
-    });
-
-    // CHAT
-    const chatBtn=document.getElementById("chatBtn");
-    const chatPopup=document.getElementById("chatPopup");
-    chatBtn.addEventListener("click",()=>chatPopup.classList.toggle("active"));
-
-    // CERT MODAL
-    const certModal=document.getElementById("certModal");
-    const certModalImg=document.getElementById("certModalImg");
-    const certClose=document.getElementById("certClose");
-    function openCert(src,alt){
-      certModalImg.src=src; certModalImg.alt=alt||"Certificate";
-      certModal.classList.add("active");
-      certModal.setAttribute("aria-hidden","false");
-      document.body.style.overflow="hidden";
-    }
-    function closeCert(){
-      certModal.classList.remove("active");
-      certModal.setAttribute("aria-hidden","true");
-      document.body.style.overflow="";
-      certModalImg.src="";
-    }
-    document.querySelectorAll("#certifications .project-content a").forEach(link=>{
-      link.addEventListener("click",e=>{
-        e.preventDefault();
-        const img=link.closest(".project")?.querySelector(".cert-image img");
-        if(img) openCert(img.src,img.alt);
-      });
-    });
-    certClose.addEventListener("click",closeCert);
-    certModal.addEventListener("click",e=>{if(e.target===certModal)closeCert();});
-
-    // PPT MODAL
-    const pptModal=document.getElementById("pptModal");
-    const pptIframe=document.getElementById("pptIframe");
-    const pptClose=document.getElementById("pptClose");
-    pptClose.addEventListener("click",()=>{pptModal.classList.remove("active");pptIframe.src="";document.body.style.overflow="";});
-    pptModal.addEventListener("click",e=>{if(e.target===pptModal){pptModal.classList.remove("active");pptIframe.src="";document.body.style.overflow="";}});
-
-    document.addEventListener("keydown",e=>{
-      if(e.key==="Escape"){closeCert();pptModal.classList.remove("active");pptIframe.src="";document.body.style.overflow="";}
-    });
-
-    // SPOTLIGHT (already handled in cursor section)
-    const spotlight=document.getElementById("spotlight");
-
-    // NAV + PROGRESS + DARK MODE
-    const nav=document.getElementById("nav");
-    const progress=document.getElementById("progress");
-    const hero=document.querySelector(".hero");
-    const profileWrap=document.querySelector(".profile-wrap");
-
-    function updateDarkMode(){
-      const work=document.getElementById("work");
-      const rect=work.getBoundingClientRect();
-      document.body.classList.toggle("dark-mode", rect.top < window.innerHeight*0.5);
-    }
-
-    function updateProfileFade(){
-      if(!hero||!profileWrap)return;
-      const rect=hero.getBoundingClientRect();
-      const fade=hero.offsetHeight*0.72;
-      const p=Math.min(Math.max(-rect.top/fade,0),1);
-      const e=1-Math.pow(1-p,2.5);
-      profileWrap.style.opacity=(1-e).toFixed(3);
-      profileWrap.style.transform=`translateY(${e*38}px) scale(${1-e*0.09})`;
-    }
-
-    window.addEventListener("scroll",()=>{
-      nav.classList.toggle("scrolled",window.scrollY>70);
-      const docH=document.body.scrollHeight-window.innerHeight;
-      progress.style.width=(window.scrollY/docH*100)+"%";
-      updateDarkMode();
-      updateProfileFade();
-    });
-    updateProfileFade();
-    window.addEventListener("resize",updateProfileFade);
-
-    // REVEAL
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");});
-    },{threshold:0.10});
-    document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
-
-    // TEXT SWITCHING
-    const text1=document.getElementById("text1");
-    const text2=document.getElementById("text2");
-    const text3=document.getElementById("text3");
-    function updateText(p){
-      [text1,text2,text3].forEach(t=>t.classList.remove("active"));
-      if(p<0.33)text1.classList.add("active");
-      else if(p<0.66)text2.classList.add("active");
-      else text3.classList.add("active");
-    }
-
-    // THREE.JS
-    const canvas=document.getElementById("three-bg");
-    const scene=new THREE.Scene();
-    const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,2000);
-    camera.position.set(0,0,12);
-    const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-    renderer.setSize(window.innerWidth,window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled=true;
-
-    // LIGHTS
-    scene.add(new THREE.AmbientLight(0xffffff,1.0));
-    const ptLight1=new THREE.PointLight(0xfff5e0,2.8,50);
-    ptLight1.position.set(6,6,10);
-    scene.add(ptLight1);
-    const goldLight=new THREE.PointLight(0xb08b57,3.2,60);
-    goldLight.position.set(-6,-2,7);
-    scene.add(goldLight);
-    const rimLight=new THREE.PointLight(0xffeac0,1.5,40);
-    rimLight.position.set(0,8,-6);
-    scene.add(rimLight);
-
-    // MAIN ORB
-    const orbGeo=new THREE.SphereGeometry(2.4,96,96);
-    const orbMat=new THREE.MeshPhysicalMaterial({
-      color:0xffffff,
-      metalness:0.50,
-      roughness:0.06,
-      clearcoat:1,
-      clearcoatRoughness:0.04,
-      reflectivity:1,
-      envMapIntensity:1,
-    });
-    const orb=new THREE.Mesh(orbGeo,orbMat);
-    scene.add(orb);
-
-    // INNER GLOW ORB
-    const innerGeo=new THREE.SphereGeometry(2.0,64,64);
-    const innerMat=new THREE.MeshPhysicalMaterial({
-      color:0xb08b57,
-      metalness:0.0,
-      roughness:0.0,
-      transparent:true,
-      opacity:0.08,
-    });
-    const innerOrb=new THREE.Mesh(innerGeo,innerMat);
-    scene.add(innerOrb);
-
-    // RINGS
-    function makeRing(r,tube,color,opacity=1){
-      const g=new THREE.TorusGeometry(r,tube,22,200);
-      const m=new THREE.MeshStandardMaterial({color,metalness:0.95,roughness:0.18,transparent:opacity<1,opacity});
-      return new THREE.Mesh(g,m);
-    }
-    const ring1=makeRing(3.2,0.07,0xb08b57);
-    ring1.rotation.x=Math.PI/2.4;
-    scene.add(ring1);
-
-    const ring2=makeRing(4.0,0.04,0xd4a96a,0.55);
-    ring2.rotation.x=Math.PI/3;
-    ring2.rotation.y=Math.PI/5;
-    scene.add(ring2);
-
-    const ring3=makeRing(2.6,0.03,0xffeac0,0.38);
-    ring3.rotation.x=Math.PI/1.8;
-    ring3.rotation.z=Math.PI/6;
-    scene.add(ring3);
-
-    // PARTICLES
-    const pGeo=new THREE.BufferGeometry();
-    const N=1800;
-    const pos=new Float32Array(N*3);
-    const col=new Float32Array(N*3);
-    for(let i=0;i<N;i++){
-      pos[i*3]=(Math.random()-0.5)*50;
-      pos[i*3+1]=(Math.random()-0.5)*50;
-      pos[i*3+2]=(Math.random()-0.5)*50;
-      const t=Math.random();
-      col[i*3]=0.70+t*0.18;
-      col[i*3+1]=0.54+t*0.12;
-      col[i*3+2]=0.34+t*0.08;
-    }
-    pGeo.setAttribute("position",new THREE.BufferAttribute(pos,3));
-    pGeo.setAttribute("color",new THREE.BufferAttribute(col,3));
-    const pMat=new THREE.PointsMaterial({size:0.035,vertexColors:true,transparent:true,opacity:0.55});
-    const particles=new THREE.Points(pGeo,pMat);
-    scene.add(particles);
-
-    // FLOATING CRYSTAL SHARDS
-    const shardGroup=new THREE.Group();
-    for(let i=0;i<8;i++){
-      const g=new THREE.OctahedronGeometry(0.12+Math.random()*0.10,0);
-      const m=new THREE.MeshPhysicalMaterial({
-        color:0xb08b57,metalness:0.85,roughness:0.08,
-        clearcoat:1,transparent:true,opacity:0.55+Math.random()*0.25
-      });
-      const s=new THREE.Mesh(g,m);
-      const angle=Math.random()*Math.PI*2;
-      const dist=3.8+Math.random()*1.6;
-      s.position.set(Math.cos(angle)*dist,  (Math.random()-0.5)*3, Math.sin(angle)*dist);
-      s.userData={angleOffset:angle,dist,speed:0.4+Math.random()*0.6,yPhase:Math.random()*Math.PI*2};
-      shardGroup.add(s);
-    }
-    scene.add(shardGroup);
-
-    /* Gen Z wireframe chaos orbits (experience section) */
-    const chaosGroup=new THREE.Group();
-    const chaosCols=[0xff2a8a,0x00f5ff,0xc8ff00,0xb14cff,0xffee00,0xff3366,0x00ff88];
-    for(let i=0;i<8;i++){
-      const geo=new THREE.TorusKnotGeometry(0.85+Math.random()*0.55,0.05+Math.random()*0.06,42,6,2+Math.floor(Math.random()*4),3+Math.floor(Math.random()*4));
-      const mat=new THREE.MeshBasicMaterial({
-        color:chaosCols[i%chaosCols.length],
-        wireframe:true,
-        transparent:true,
-        opacity:0.26+Math.random()*0.12
-      });
-      const m=new THREE.Mesh(geo,mat);
-      m.userData.phase=i*1.17;
-      chaosGroup.add(m);
-    }
-    scene.add(chaosGroup);
-
-    let mouseX=0,mouseY=0;
-    window.addEventListener("mousemove",e=>{
-      mouseX=(e.clientX/window.innerWidth-0.5)*2;
-      mouseY=(e.clientY/window.innerHeight-0.5)*2;
-    });
-
-    function getExpScrollPct(){
-      const exp=document.getElementById("experience");
-      const r=exp.getBoundingClientRect();
-      const total=exp.offsetHeight-window.innerHeight;
-      return Math.min(Math.max(-r.top,0),total)/total;
-    }
-
-    function animate(){
-      requestAnimationFrame(animate);
-      const t=Date.now()*0.001;
-      const p=getExpScrollPct();
-      updateText(p);
-
-      camera.position.z=12-p*7.5;
-      const sc=1+p*1.2;
-      orb.scale.set(sc,sc,sc);
-      innerOrb.scale.set(sc,sc,sc);
-      ring1.scale.set(1+p*1.65,1+p*1.65,1);
-      ring2.scale.set(1+p*1.4,1+p*1.4,1);
-      ring3.scale.set(1+p*1.2,1+p*1.2,1);
-      ring1.rotation.x=Math.PI/2.4+p*1.25;
-      ring2.rotation.x=Math.PI/3+p*0.8;
-      ring3.rotation.x=Math.PI/1.8+p*0.6;
-
-      orb.rotation.y+=0.004;
-      orb.rotation.x+=0.0018;
-      ring1.rotation.z+=0.0022;
-      ring2.rotation.z-=0.0015;
-      ring3.rotation.y+=0.0028;
-      particles.rotation.y+=0.0007;
-      particles.rotation.x+=0.0003;
-
-      const bounce=Math.sin(t)*0.14-p*1.4;
-      orb.position.y=bounce;
-      innerOrb.position.y=bounce;
-      ring1.position.y=bounce;
-
-      // Shards orbit
-      shardGroup.children.forEach(s=>{
-        const a=s.userData.angleOffset+t*s.userData.speed*0.18;
-        s.position.x=Math.cos(a)*s.userData.dist;
-        s.position.z=Math.sin(a)*s.userData.dist;
-        s.position.y=(Math.sin(t*s.userData.speed+s.userData.yPhase)*1.4)-p*1.2;
-        s.rotation.x+=0.012*s.userData.speed;
-        s.rotation.y+=0.018*s.userData.speed;
-      });
-
-      chaosGroup.children.forEach((m,i)=>{
-        const ang=t*(0.42+i*0.09)+m.userData.phase;
-        const rad=4.2+p*3.4+0.5*Math.sin(t*0.6+i);
-        m.position.x=Math.cos(ang)*rad;
-        m.position.z=Math.sin(ang)*rad;
-        m.position.y=Math.sin(t*1.15+i*0.7)*1.95-p*1.1;
-        m.rotation.x+=0.042;
-        m.rotation.y+=0.055;
-        m.rotation.z+=0.028;
-      });
-
-      camera.position.x=mouseX*0.8;
-      camera.position.y=p*1.9+mouseY*0.5;
-      camera.lookAt(0,bounce,0);
-
-      // Gold light breathe
-      goldLight.intensity=2.8+Math.sin(t*1.5)*0.8;
-      ptLight1.position.x=6+Math.sin(t*0.4)*2;
-
-      renderer.render(scene,camera);
-    }
-    animate();
-
-    /* GEN Z — full-viewport WebGL (neon knots + shards) */
-    const genzCanvas=document.getElementById("genz-canvas");
-    const genzReduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let genzRenderer,genzScene,genzCam,genzMeshes=[];
-    if(genzCanvas&&!genzReduceMotion&&typeof THREE!=="undefined"){
-      genzScene=new THREE.Scene();
-      genzCam=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,0.1,220);
-      genzCam.position.z=15;
-      genzRenderer=new THREE.WebGLRenderer({canvas:genzCanvas,alpha:true,antialias:true});
-      genzRenderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-      genzRenderer.setSize(window.innerWidth,window.innerHeight);
-      const neon=[0xff2a8a,0x00f5ff,0xc8ff00,0xb14cff,0xffee00];
-      for(let i=0;i<6;i++){
-        const geo=new THREE.TorusKnotGeometry(2+Math.random()*1.2,0.07+Math.random()*0.06,88,10,2+(i%4),3+(i%3));
-        const mat=new THREE.MeshBasicMaterial({
-          color:neon[i%neon.length],
-          wireframe:true,
-          transparent:true,
-          opacity:0.14+Math.random()*0.1
-        });
-        const mesh=new THREE.Mesh(geo,mat);
-        mesh.userData={ax:Math.random()*2-1,ay:Math.random()*2-1,sp:0.75+Math.random()*0.9,idx:i};
-        genzMeshes.push(mesh);
-        genzScene.add(mesh);
-      }
-      const shardGeo=new THREE.OctahedronGeometry(0.22,0);
-      for(let j=0;j<55;j++){
-        const sm=new THREE.Mesh(shardGeo,new THREE.MeshBasicMaterial({
-          color:neon[j%neon.length],
-          wireframe:true,
-          transparent:true,
-          opacity:0.06+Math.random()*0.08
-        }));
-        const bx=(Math.random()-0.5)*42;
-        const by=(Math.random()-0.5)*28;
-        const bz=(Math.random()-0.5)*32;
-        sm.position.set(bx,by,bz);
-        sm.userData={rv:0.02+Math.random()*0.04,baseY:by,baseX:bx,baseZ:bz,j};
-        genzMeshes.push(sm);
-        genzScene.add(sm);
-      }
-      function genzTick(){
-        requestAnimationFrame(genzTick);
-        const gt=Date.now()*0.001;
-        genzMeshes.forEach((m)=>{
-          if(m.userData.idx!==undefined){
-            m.rotation.x+=0.014*m.userData.sp*m.userData.ax;
-            m.rotation.y+=0.022*m.userData.sp*m.userData.ay;
-            m.rotation.z+=0.01*m.userData.sp;
-            const i=m.userData.idx;
-            const ang=gt*(0.18+i*0.04)+i*2.1;
-            const rad=7.5+Math.sin(gt*0.25+i)*2.8;
-            m.position.set(Math.cos(ang)*rad,Math.sin(gt*0.55+i)*2.2,Math.sin(ang)*rad);
-          }else if(m.userData.rv){
-            m.rotation.x+=m.userData.rv;
-            m.rotation.y+=m.userData.rv*1.3;
-            const u=m.userData;
-            m.position.y=u.baseY+Math.sin(gt*0.85+u.j*0.2)*0.55;
-            m.position.x=u.baseX+Math.cos(gt*0.35+u.j)*0.35;
-            m.position.z=u.baseZ+Math.sin(gt*0.28+u.j*0.15)*0.35;
-          }
-        });
-        genzCam.position.x=Math.sin(gt*0.14)*3.2;
-        genzCam.position.y=Math.cos(gt*0.11)*2.1;
-        genzCam.lookAt(0,0,0);
-        genzRenderer.render(genzScene,genzCam);
-      }
-      genzTick();
-    }
-
-    function resizeCulture3D(){
-      const aSec=document.getElementById("about");
-      const cSec=document.getElementById("contact");
-      if(cultureAboutR&&cultureAboutC&&aSec){
-        const w=aSec.offsetWidth,h=aSec.offsetHeight;
-        if(w>0&&h>0){
-          cultureAboutC.aspect=w/h;
-          cultureAboutC.updateProjectionMatrix();
-          cultureAboutR.setSize(w,h);
-        }
-      }
-      if(cultureContactR&&cultureContactC&&cSec){
-        const w=cSec.offsetWidth,h=cSec.offsetHeight;
-        if(w>0&&h>0){
-          cultureContactC.aspect=w/h;
-          cultureContactC.updateProjectionMatrix();
-          cultureContactR.setSize(w,h);
-        }
-      }
-    }
-
-    let cultureAboutR,cultureAboutS,cultureAboutC,cultureAboutM=[];
-    let cultureContactR,cultureContactS,cultureContactC,cultureContactM=[];
-    let cultureAboutOn=false,cultureContactOn=false;
-
-    if(!genzReduceMotion&&typeof THREE!=="undefined"){
-      const aEl=document.getElementById("about-3d");
-      const cEl=document.getElementById("contact-3d");
-      const aSec=document.getElementById("about");
-      const cSec=document.getElementById("contact");
-      const wf=(col,op)=>new THREE.MeshBasicMaterial({color:col,wireframe:true,transparent:true,opacity:op});
-
-      if(aEl&&aSec){
-        cultureAboutS=new THREE.Scene();
-        cultureAboutC=new THREE.PerspectiveCamera(58,1,0.1,80);
-        cultureAboutC.position.z=9;
-        cultureAboutR=new THREE.WebGLRenderer({canvas:aEl,alpha:true,antialias:true});
-        cultureAboutR.setClearColor(0x000000,0);
-        cultureAboutR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-        const ball=new THREE.Mesh(new THREE.IcosahedronGeometry(1.35,1),wf(0x22c55e,0.34));
-        ball.position.set(0,0,0);
-        ball.userData={by:0};
-        const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,0.12,16,40),wf(0xff2a8a,0.3));
-        ring.position.set(2.8,0.5,0);
-        ring.userData={by:0.5};
-        const bling=new THREE.Mesh(new THREE.BoxGeometry(1.05,1.05,1.05),wf(0xffd700,0.26));
-        bling.position.set(-2.4,-0.7,0.6);
-        bling.userData={by:-0.7};
-        const spark=new THREE.Mesh(new THREE.OctahedronGeometry(0.32,0),wf(0x00f5ff,0.42));
-        spark.position.set(1.1,-1.4,0.2);
-        spark.userData={by:-1.4};
-        cultureAboutM=[ball,ring,bling,spark];
-        cultureAboutM.forEach(m=>cultureAboutS.add(m));
-      }
-
-      if(cEl&&cSec){
-        cultureContactS=new THREE.Scene();
-        cultureContactC=new THREE.PerspectiveCamera(52,1,0.1,80);
-        cultureContactC.position.z=11;
-        cultureContactR=new THREE.WebGLRenderer({canvas:cEl,alpha:true,antialias:true});
-        cultureContactR.setClearColor(0x000000,0);
-        cultureContactR.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-        const vinyl=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.1,0.06,56),wf(0x444444,0.38));
-        vinyl.rotation.x=Math.PI/2;
-        vinyl.position.set(-2.9,-0.4,0);
-        const sp1=new THREE.Mesh(new THREE.BoxGeometry(0.85,1.35,0.32),wf(0xff2a8a,0.28));
-        sp1.position.set(2.7,0.35,0.4);
-        sp1.userData={by:0.35};
-        const sp2=new THREE.Mesh(new THREE.BoxGeometry(0.85,1.35,0.32),wf(0x00f5ff,0.26));
-        sp2.position.set(3.45,-0.35,-0.15);
-        sp2.userData={by:-0.35};
-        const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(0.62,0.12,40,8,2,3),wf(0xffd700,0.36));
-        knot.position.set(0.4,1.15,0);
-        knot.userData={by:1.15};
-        cultureContactM=[vinyl,sp1,sp2,knot];
-        vinyl.userData={by:-0.4};
-        cultureContactM.forEach(m=>cultureContactS.add(m));
-      }
-
-      resizeCulture3D();
-      requestAnimationFrame(()=>resizeCulture3D());
-
-      const cultIO=new IntersectionObserver(ents=>{
-        ents.forEach(en=>{
-          if(en.target.id==="about") cultureAboutOn=en.isIntersecting;
-          if(en.target.id==="contact") cultureContactOn=en.isIntersecting;
-        });
-      },{threshold:0.05,rootMargin:"-4% 0px -4% 0px"});
-      if(aSec) cultIO.observe(aSec);
-      if(cSec) cultIO.observe(cSec);
-
-      function culture3dTick(){
-        requestAnimationFrame(culture3dTick);
-        const t=Date.now()*0.001;
-        if(cultureAboutOn&&cultureAboutR&&cultureAboutS&&cultureAboutC&&cultureAboutM.length){
-          cultureAboutM.forEach((m,i)=>{
-            m.rotation.x+=0.016+0.003*i;
-            m.rotation.y+=0.022+0.002*i;
-            m.position.y=m.userData.by+Math.sin(t*0.92+i*1.2)*0.26;
-          });
-          cultureAboutC.position.x=Math.sin(t*0.19)*0.75;
-          cultureAboutC.lookAt(0,0,0);
-          cultureAboutR.render(cultureAboutS,cultureAboutC);
-        }
-        if(cultureContactOn&&cultureContactR&&cultureContactS&&cultureContactC&&cultureContactM.length){
-          cultureContactM[0].rotation.x=Math.PI/2;
-          cultureContactM[0].rotation.z+=0.032;
-          for(let i=1;i<cultureContactM.length;i++){
-            const m=cultureContactM[i];
-            m.rotation.x+=0.012;
-            m.rotation.y+=0.022;
-            m.position.y=m.userData.by+Math.sin(t*1.1+i)*0.22;
-          }
-          cultureContactC.position.x=Math.cos(t*0.15)*0.65;
-          cultureContactC.position.y=Math.sin(t*0.12)*0.32;
-          cultureContactC.lookAt(0,0,0);
-          cultureContactR.render(cultureContactS,cultureContactC);
-        }
-      }
-      culture3dTick();
-    }
-
-    function updateGenzLayerOpacity(){
-      if(!genzCanvas)return;
-      const hero=document.querySelector(".hero");
-      const certs=document.getElementById("certifications");
-      const about=document.getElementById("about");
-      let o=0.1;
-      if(hero){
-        const hr=hero.getBoundingClientRect();
-        const v=Math.max(0,Math.min(1,1-Math.max(0,hr.top)/(window.innerHeight*0.9)));
-        o=Math.max(o,0.06+v*0.36);
-      }
-      if(about){
-        const ar=about.getBoundingClientRect();
-        if(ar.top<window.innerHeight&&ar.bottom>0)o=Math.max(o,0.22);
-      }
-      if(certs){
-        const cr=certs.getBoundingClientRect();
-        if(cr.top<window.innerHeight&&cr.bottom>0)o=Math.max(o,0.3);
-      }
-      const exp=document.getElementById("experience");
-      if(exp){
-        const er=exp.getBoundingClientRect();
-        if(er.top<window.innerHeight&&er.bottom>0)o=Math.max(o,0.2);
-      }
-      const contactEl=document.getElementById("contact");
-      if(contactEl){
-        const ctr=contactEl.getBoundingClientRect();
-        if(ctr.top<window.innerHeight&&ctr.bottom>0)o=Math.max(o,0.26);
-      }
-      genzCanvas.style.opacity=o.toFixed(3);
-    }
-    if(genzCanvas&&!genzReduceMotion){
-      window.addEventListener("scroll",updateGenzLayerOpacity,{passive:true});
-      updateGenzLayerOpacity();
-    }
-
-    if(!genzReduceMotion){
-      document.querySelectorAll("#certifications .project").forEach(card=>{
-        card.addEventListener("mousemove",e=>{
-          const r=card.getBoundingClientRect();
-          const x=(e.clientX-r.left)/r.width-0.5;
-          const y=(e.clientY-r.top)/r.height-0.5;
-          card.style.transform=`perspective(920px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateY(-16px) scale(1.02)`;
-        });
-        card.addEventListener("mouseleave",()=>{ card.style.transform=""; });
-      });
-    }
-
-    window.addEventListener("resize",()=>{
-      camera.aspect=window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth,window.innerHeight);
-      if(genzRenderer&&genzCam){
-        genzCam.aspect=window.innerWidth/window.innerHeight;
-        genzCam.updateProjectionMatrix();
-        genzRenderer.setSize(window.innerWidth,window.innerHeight);
       }
       resizeCulture3D();
     });
